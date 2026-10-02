@@ -1,22 +1,13 @@
-import { agent } from '../api/phase1.ts';
-import { ENDPOINTS, fromSeam } from '../contracts.ts';
+import { agentGet, ENDPOINTS } from '../contracts.ts';
 import type { WeeklyBrief } from '../contracts.ts';
-import { fixtureBrief } from '../fixtures.ts';
-import { gateMemory } from '../lib/data.ts';
-import { loadCalendar } from '../lib/calendar.ts';
 import { dayLong, shortDate, time } from '../lib/format.ts';
 import { href } from '../lib/router.ts';
 import { useResource } from '../lib/resource.ts';
-import { Empty, ErrorBox, Icon, Loading, PageHeader, Photo, SourceBadge } from '../ui/kit.tsx';
+import { Empty, ErrorBox, Icon, Loading, PageHeader, Photo } from '../ui/kit.tsx';
 
 export default function Brief() {
-  const res = useResource(async () => {
-    const gate = await agent.gate().catch(() => []);
-    for (const g of gate) gateMemory.set(g.candidateId, g);
-    const cal = await loadCalendar();
-    return fromSeam<WeeklyBrief>(ENDPOINTS.brief, () => fixtureBrief(cal.data, [...gateMemory.values()]));
-  });
-  const b = res.data?.data;
+  const res = useResource(() => agentGet<WeeklyBrief>(ENDPOINTS.brief));
+  const b = res.data;
 
   return (
     <>
@@ -28,19 +19,18 @@ export default function Brief() {
           </>
         }
         lede={b?.summary ?? 'Who is worth meeting, when, where, and why.'}
-        right={res.data ? <SourceBadge source={res.data.source} what="The scheduling service is not merged yet. Times and places are fixtures; names and reasons come from the live shortlist where they match." /> : undefined}
       />
 
-      {res.error && !res.data ? <ErrorBox error={res.error} retry={res.reload} /> : null}
-      {res.loading && !res.data ? <Loading /> : null}
+      {res.error && !b ? <ErrorBox error={res.error} retry={res.reload} /> : null}
+      {res.loading && !b ? <Loading /> : null}
       {b && b.entries.length === 0 ? (
-        <Empty title="Nothing to report this week.">No dates are proposed and nobody is waiting. Run the funnel and clear the gate first.</Empty>
+        <Empty title="Nothing to report this week.">No dates are proposed. Run the funnel, clear the gate, and ask for an opener in Drafts: that is what puts evenings on the calendar.</Empty>
       ) : null}
 
       {b && b.entries.length ? (
         <ol className="brief">
           {b.entries.map((e, i) => (
-            <li key={e.person.id + i} className="brief__item">
+            <li key={e.person.id} className="brief__item">
               <span className="brief__n serif" aria-hidden="true">
                 {i + 1}
               </span>
@@ -53,14 +43,25 @@ export default function Brief() {
                 <p className="brief__when">
                   <span>{dayLong(e.when)}</span>
                   <span className="mono">{time(e.when)}</span>
+                  <span className={`chip ${e.status === 'confirmed' ? 'chip--ok' : ''}`}>{e.status}</span>
                 </p>
                 <p className="brief__where dim">
                   <Icon name="pin" size={15} /> {e.where}, {e.city}
                 </p>
                 <div className="brief__why">
                   <p className="eyebrow">Why this person</p>
-                  <p className="serif">{e.why.charAt(0).toUpperCase() + e.why.slice(1)}{/[.!?]$/.test(e.why) ? '' : '.'}</p>
+                  <p className="serif">{e.why}</p>
+                  <details className="brief__evidence">
+                    <summary className="faint">The evidence behind that</summary>
+                    <ul>
+                      {e.evidence.map((x) => (
+                        <li key={x}>{x}</li>
+                      ))}
+                    </ul>
+                  </details>
                 </div>
+                {e.alsoOffered.length ? <p className="faint">Also offered: {e.alsoOffered.join('; ')}</p> : null}
+                {e.travelNote ? <p className="dim">{e.travelNote}</p> : null}
                 <div className="row">
                   <a className="btn btn--sm" href={href('drafts')}>
                     Their opener
@@ -78,9 +79,36 @@ export default function Brief() {
         </ol>
       ) : null}
 
+      {b && b.pending.length ? (
+        <section className="brief__side" aria-label="Still yours to decide">
+          <p className="eyebrow">Still yours to decide</p>
+          <ul>
+            {b.pending.map((p) => (
+              <li key={p.text}>{p.text}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {b && b.leastSure.length ? (
+        <section className="brief__side" aria-label="Dropped, and least sure about">
+          <p className="eyebrow">Dropped, and the system is least sure about</p>
+          <ul>
+            {b.leastSure.map((d) => (
+              <li key={d.candidateId}>
+                <b>{d.name}</b> <span className="mono faint">[{d.rule}, confidence {d.confidence}]</span>
+                <br />
+                <span className="dim">{d.reason}. {d.whyUnsure}</span>{' '}
+                <a href={href('why', d.candidateId)}>Why, and how to bring her back</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {b ? (
         <p className="brief__foot faint">
-          <Icon name="lock" size={14} /> Prepared for Eric. The system sends nothing on its own. Every opener waits in Drafts for you to read, change and send yourself.
+          <Icon name="lock" size={14} /> Prepared for Eric. The system sends nothing on its own. Every opener waits in Drafts for you to read, change and send yourself. {b.basis}
         </p>
       ) : null}
     </>

@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { platform } from '../api/phase1.ts';
-import type { Source } from '../contracts.ts';
 import { initials } from '../lib/format.ts';
 import { isUnreachable } from '../lib/data.ts';
 
@@ -15,18 +14,6 @@ export function Photo({ photoRef, name, className = '', style }: { photoRef: str
         </div>
       )}
     </div>
-  );
-}
-
-export function SourceBadge({ source, what }: { source: Source; what?: string }) {
-  return source === 'fixture' ? (
-    <span className="badge-fixture" title={what ?? 'Not served by the backend yet. Local fixture data.'}>
-      Fixture
-    </span>
-  ) : (
-    <span className="badge-live" title="From the backend">
-      Live
-    </span>
   );
 }
 

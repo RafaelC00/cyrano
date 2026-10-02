@@ -9,7 +9,8 @@ import { candidate } from './helpers.ts';
 const prefs = defaultPreferences();
 const run = (over: Parameters<typeof candidate>[0]) => {
   const audit = new AuditLog(() => new Date('2026-10-02T09:00:00.000Z'));
-  const c = candidate(over);
+  // Eric is a man interested in women, so the baseline candidate is a woman interested in men.
+  const c = candidate({ gender: 'woman', interestedIn: ['man'], city: 'Lisbon', ...over });
   return { audit, verdict: evaluateRules(c.id, c.declared, prefs, audit, 'run_t') };
 };
 
@@ -19,13 +20,13 @@ test('a candidate matching every constraint passes', () => {
 
 for (const [rule, over] of [
   ['age.range', { age: 45 }],
-  ['orientation.mutual', { gender: 'woman' }],
-  ['orientation.mutual', { interestedIn: ['man'] }],
-  ['city.allowed', { city: 'Berlin' }],
-  ['language.shared', { languages: ['de'] }],
+  ['orientation.mutual', { gender: 'man' }],
+  ['orientation.mutual', { interestedIn: ['woman'] }],
+  ['city.allowed', { city: 'Porto' }],
+  ['language.shared', { languages: ['pt'] }],
   ['intent.overlap', { lookingFor: ['casual'] }],
   ['smoking.excluded', { smoking: 'regularly' }],
-  ['children.excluded', { children: 'dont-want' }],
+  ['children.excluded', { children: 'want' }],
 ] as const) {
   test(`${rule} fails on ${JSON.stringify(over)} and says why`, () => {
     const { verdict } = run(over as never);
@@ -37,7 +38,7 @@ for (const [rule, over] of [
 }
 
 test('every evaluation, pass or fail, writes an audit entry with the required shape', () => {
-  const { audit } = run({ age: 45, city: 'Berlin' });
+  const { audit } = run({ age: 45, city: 'Porto' });
   const entries = audit.query({ candidateId: 'p_test' });
   assert.equal(entries.length, RULES.length);
   for (const e of entries) {
@@ -49,7 +50,7 @@ test('every evaluation, pass or fail, writes an audit entry with the required sh
 });
 
 test('all rules are evaluated even after a failure, so "why" is complete', () => {
-  const { verdict } = run({ age: 45, city: 'Berlin', smoking: 'regularly' });
+  const { verdict } = run({ age: 45, city: 'Porto', smoking: 'regularly' });
   assert.deepEqual(verdict.failures.map((f) => f.rule), ['age.range', 'city.allowed', 'smoking.excluded']);
 });
 

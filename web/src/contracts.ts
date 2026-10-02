@@ -1,44 +1,35 @@
 /**
- * THE SEAM.
+ * What the agent serves beyond the funnel: the learned model's result, drafts' provenance,
+ * the calendar and the weekly brief. The types here mirror the backend's `src/agent/views.ts`
+ * and `src/calibration/trainingReport.ts`; if one changes, change the other with it.
  *
- * Phase 1 (platform, funnel, audit, reversal, outbox) is real and lives in `api/phase1.ts`.
- * Two further services are being built on other branches and are not merged yet:
- *
- *   - scoring and preference learning   (training labels, learned scores, the model report)
- *   - drafting and scheduling           (draft metadata, calendar, weekly brief)
- *
- * Everything this UI needs from them is declared in this one file: the types, the endpoint
- * paths we expect, and `fromSeam`, which asks the agent for the live endpoint and falls back to
- * a local fixture (`fixtures.ts`) when the agent does not serve it yet. Each result carries its
- * `source`, and the UI shows a "fixture" badge wherever data did not come from the backend.
- *
- * When a branch merges: check its response shape against the type below, adjust here if it
- * differs, and the screen switches from fixture to live with no other change.
+ * Everything is read live from the agent. There are no local fixtures: if the agent is down the
+ * screen says so.
  */
 
-import { AGENT_BASE, ApiError } from './api/phase1.ts';
+import { AGENT_BASE, ApiError, call } from './api/phase1.ts';
 
-export type Source = 'live' | 'fixture';
-export interface Sourced<T> {
-  data: T;
-  source: Source;
-}
-
-/** Paths relative to the agent API. Expected shapes are the types below. */
+/** Paths relative to the agent API. */
 export const ENDPOINTS = {
-  // scoring and preference learning
-  modelReport: '/model/report', //                  GET   -> ModelReport
-  trainingNext: '/training/next', //                GET   ?mode=pair|rating&n=  -> TrainingItem[]
-  trainingLabels: '/training/labels', //            GET   -> LabelSummary      POST Label -> LabelSummary
-  learnedScores: '/scores', //                      GET   ?ids=a,b,c -> LearnedScore[]
-  // drafting and scheduling
-  draftMeta: (draftId: string) => `/drafts/${draftId}/meta`, //   GET -> DraftMeta
-  calendar: '/calendar', //                         GET   -> CalendarState
-  calendarMove: (id: string) => `/calendar/${id}/move`, //        POST {start} -> DateProposal
-  calendarConfirm: (id: string) => `/calendar/${id}/confirm`, //  POST -> DateProposal   (human action)
-  calendarIcs: '/calendar.ics', //                  GET   -> text/calendar
-  brief: '/brief', //                               GET   -> WeeklyBrief
+  modelReport: '/model/report', //                  GET -> ModelReport
+  comparisons: '/model/comparisons', //             GET ?offset=&n=&against=1 -> ComparisonPage
+  learnedScores: '/scores', //                      GET ?ids=a,b,c -> LearnedScore[]
+  draftMeta: (draftId: string) => `/drafts/${draftId}/meta`, //   GET -> DraftMeta (404 for a hand-written draft)
+  calendar: '/calendar', //                         GET -> CalendarState
+  calendarConfirm: (id: string) => `/calendar/${id}/confirm`, //  POST -> CalendarState   (a person says she agreed)
+  calendarMove: (id: string) => `/calendar/${id}/move`, //        POST {start: "2026-10-15T20:00"} -> CalendarState
+  calendarDrop: (id: string) => `/calendar/${id}/drop`, //        POST -> CalendarState   (gives every hold back)
+  calendarIcs: '/calendar.ics', //                  GET -> text/calendar
+  brief: '/brief', //                               GET -> WeeklyBrief
 } as const;
+
+export const agentGet = <T>(path: string) => call<T>(AGENT_BASE, path, { headers: { Accept: 'application/json' } });
+export const agentPost = <T>(path: string, body?: unknown) =>
+  call<T>(AGENT_BASE, path, {
+    method: 'POST',
+    headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
 
 /** A person as the screens need them. `photoRef` is a platform photo reference, or null. */
 export interface PersonRef {
@@ -59,53 +50,75 @@ export interface LearnedScore {
   learned: number;
   /** 0..1, from the stated-preference baseline, for comparison. */
   stated: number;
-  /** Largest signed contributions, in plain words. */
+  /** Largest signed contributions to the learned score, in plain words. */
   factors: Array<{ label: string; contribution: number }>;
 }
 
-export type TrainingItem =
-  | { kind: 'pair'; id: string; a: PersonRef; b: PersonRef }
-  | { kind: 'rating'; id: string; person: PersonRef };
+export interface Interval {
+  mean: number;
+  lo: number;
+  hi: number;
+}
 
-export type Label =
-  | { itemId: string; kind: 'pair'; choice: 'a' | 'b' | 'neither'; at: string }
-  | { itemId: string; kind: 'rating'; rating: 1 | 2 | 3 | 4 | 5; at: string };
-
-export interface LabelSummary {
-  count: number;
-  target: number;
+export interface PersonSummary {
+  id: string;
+  name: string;
+  age: number;
+  city: string;
+  job: string;
+  yearsInCity: number;
+  nightsAwayPerMonth: number;
+  hasPractice: boolean;
 }
 
 export interface FeatureWeight {
   key: string;
-  label: string;
-  /** What the stated profile implies, -1..1. */
-  stated: number;
-  /** What the labels imply, -1..1, with an interval that narrows as labels accumulate. */
-  learned: number;
-  low: number;
-  high: number;
+  group: string;
+  /** What his own words imply: 1 more, -1 less, null if he said nothing about it. */
+  said: 1 | -1 | null;
+  /** Learned weight, logits per standard deviation of the feature, with a 90% interval. */
+  weight: number;
+  lo: number;
+  hi: number;
+  /** The weight the labels were generated from, in the same units. Known only because we wrote it. */
+  built: number;
+  verdict: string;
+  phrase: string;
 }
 
-export interface Disagreement {
-  person: PersonRef;
-  kind: 'model-higher' | 'model-lower';
-  statedRank: number;
-  learnedRank: number;
-  because: string;
-}
-
+/** Held-out result of `npm run calibrate`, served as written. Every person in it is generated. */
 export interface ModelReport {
-  labels: LabelSummary;
-  /** Held-out accuracy of the learned model against the stated-preference baseline. */
-  heldOut: { n: number; learned: number; stated: number } | null;
-  /** The headline finding, written so a person can disagree with it. */
-  finding: { title: string; evidence: string } | null;
+  synthetic: true;
+  setup: {
+    trials: number;
+    trainLabels: number;
+    testLabels: number;
+    pool: { generated: number; eligible: number };
+    lapseRate: number;
+    idiosyncrasySd: number;
+    headline: { seed: number; trainPeople: number; testPeople: number };
+  };
+  scorers: Array<{ key: 'learned' | 'stated' | 'mobility' | 'oracle'; name: string; accuracy: Interval; correlation: Interval; top10: Interval }>;
+  gain: Interval & { wins: number; of: number };
+  stress: { learnedAccuracy: Interval; statedAccuracy: Interval; oracleAccuracy: Interval };
+  finding: { title: string; evidence: string };
   features: FeatureWeight[];
-  disagreements: Disagreement[];
-  /** Reliability curve: when the model said p, how often did you agree. */
-  calibration: Array<{ predicted: number; observed: number; n: number }>;
-  note: string;
+  recovery: { cosine: number; signsRight: number; signsOf: number; spurious: number; top5Overlap: number };
+  curve: Array<{ n: number; learned: Interval; baseline: Interval }>;
+  calibration: { ece: number; bins: Array<{ predicted: number; observed: number; n: number }> };
+  misses: Array<{ preferred: PersonSummary; picked: PersonSummary; margin: number }>;
+  confident: { n: number; wrong: number };
+  portraits: { library: number; inCalibrationPool: number };
+}
+
+export interface ComparisonPage {
+  /** Comparisons matching the filter. */
+  total: number;
+  /** All of Eric's comparisons. */
+  of: number;
+  offset: number;
+  items: Array<{ a: string; b: string; chosen: 'a' | 'b'; fitsPitch: 'a' | 'b' | null }>;
+  people: Record<string, PersonSummary>;
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -120,8 +133,13 @@ export interface DraftMeta {
   languageReason: string;
   /** The profile detail the opener is built on. */
   detail: { field: string; value: string } | null;
-  /** Which voice rules the draft was checked against. */
+  /** The prohibited-content rules this text passed. */
   voiceChecks: Array<{ rule: string; ok: boolean }>;
+  /** Earlier texts the checker refused before this one passed. */
+  rejectedAttempts: Array<{ rule: string; reason: string }>;
+  /** Every place and date the text implies he will be. */
+  claims: string[];
+  generator: string;
 }
 
 export interface Stay {
@@ -138,8 +156,9 @@ export interface DateProposal {
   start: string; // ISO date-time, local to `city`
   end: string;
   city: string;
-  venue: string;
-  kind: 'coffee' | 'drink' | 'dinner';
+  /** Null until the two of them have agreed a place. */
+  venue: string | null;
+  kind: 'coffee' | 'drinks' | 'dinner';
   status: ProposalStatus;
   /** Why this slot: the constraint it satisfies. */
   reason: string;
@@ -154,43 +173,25 @@ export interface CalendarState {
 export interface BriefEntry {
   proposalId: string | null;
   person: PersonRef;
-  when: string; // ISO date-time
+  when: string; // ISO date-time, local to `city`
   where: string;
   city: string;
   why: string;
+  evidence: string[];
+  status: 'confirmed' | 'proposed';
+  alsoOffered: string[];
+  travelNote: string | null;
 }
 
 export interface WeeklyBrief {
   weekOf: string; // ISO date, a Monday
   summary: string;
   entries: BriefEntry[];
-}
-
-// ---------------------------------------------------------------------------------------------
-// Live-or-fixture
-// ---------------------------------------------------------------------------------------------
-
-/** Ask the agent for `path`; if it is not served (or the agent is down), use the fixture. */
-export async function fromSeam<T>(path: string, fixture: () => T | Promise<T>): Promise<Sourced<T>> {
-  try {
-    const res = await fetch(AGENT_BASE + path, { headers: { Accept: 'application/json' } });
-    const type = res.headers.get('content-type') ?? '';
-    if (res.ok && type.includes('application/json')) return { data: (await res.json()) as T, source: 'live' };
-  } catch {
-    // fall through to the fixture
-  }
-  return { data: await fixture(), source: 'fixture' };
-}
-
-/** POST to the agent; if it is not served, run the local fixture instead. */
-export async function postSeam<T>(path: string, body: unknown, fixture: () => T): Promise<Sourced<T>> {
-  try {
-    const res = await fetch(AGENT_BASE + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (res.ok && (res.headers.get('content-type') ?? '').includes('application/json')) return { data: (await res.json()) as T, source: 'live' };
-  } catch {
-    // fall through to the fixture
-  }
-  return { data: fixture(), source: 'fixture' };
+  pending: Array<{ kind: string; text: string }>;
+  atTheGate: Array<{ candidateId: string; name: string; rank: number | null; why: string }>;
+  /** Dropped people the system is least sure about, so a person can look first. */
+  leastSure: Array<{ candidateId: string; name: string; rule: string; reason: string; confidence: number; whyUnsure: string }>;
+  basis: string;
 }
 
 export { ApiError };

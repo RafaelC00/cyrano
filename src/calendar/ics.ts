@@ -45,6 +45,16 @@ export interface IcsOptions {
  * Importing this file needs no account and no API: it is how the date reaches any calendar.
  */
 export function buildIcs(event: ConfirmedEvent, opts: IcsOptions = {}): string {
+  return buildIcsCalendar([event], opts);
+}
+
+/** One calendar file holding every given confirmed date. */
+export function buildIcsCalendar(events: readonly ConfirmedEvent[], opts: IcsOptions = {}): string {
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//cyrano//scheduling//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', ...events.flatMap((e) => veventLines(e, opts)), 'END:VCALENDAR'];
+  return lines.map(foldLine).join('\r\n') + '\r\n';
+}
+
+function veventLines(event: ConfirmedEvent, opts: IcsOptions): string[] {
   const { slot } = event;
   const stampIso = (opts.now ?? new Date(event.confirmedAt)).toISOString();
   const localStart = formatLocal(new Date(slot.start), slot.timezone);
@@ -52,16 +62,11 @@ export function buildIcs(event: ConfirmedEvent, opts: IcsOptions = {}): string {
   const description = [
     `${capitalise(slot.kind)} with ${event.label}`,
     `Local time: ${localStart} (${slot.timezone})`,
-    slot.confidence === 'tentative' ? 'Eric\'s travel to this city is not booked yet.' : '',
+    slot.confidence === 'tentative' ? "Eric's travel to this city is not booked yet." : '',
   ]
     .filter(Boolean)
     .join('\n');
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//cyrano//scheduling//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+  return [
     'BEGIN:VEVENT',
     `UID:${event.uid}`,
     `DTSTAMP:${stamp(stampIso)}`,
@@ -78,9 +83,7 @@ export function buildIcs(event: ConfirmedEvent, opts: IcsOptions = {}): string {
     'TRIGGER:-PT2H',
     'END:VALARM',
     'END:VEVENT',
-    'END:VCALENDAR',
   ];
-  return lines.map(foldLine).join('\r\n') + '\r\n';
 }
 
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

@@ -81,3 +81,6 @@ export const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday',
 export const weekdayIndex = (iso: string) => asUtc(iso).getUTCDay();
 
 export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+const KIND_WORD = { coffee: 'Coffee', drinks: 'Drinks', dinner: 'Dinner' } as const;
+export const kindWord = (k: keyof typeof KIND_WORD) => KIND_WORD[k];

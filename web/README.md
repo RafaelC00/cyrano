@@ -13,11 +13,9 @@ npm test           # the chat parser
 
 Needs Node 22.18 or newer. The browser only talks to this origin; the dev and preview servers forward `/api/agent` to `:4200` and `/api/platform` to `:4100`.
 
-## Real data and fixtures
+## Data
 
-Phase 1 (platform, funnel, audit, reversal, outbox) is used live: Pool, Funnel, Swipe, Shortlist (stated scores), Why, Drafts and the lookups in Chat.
-
-Scoring and preference learning, and drafting and scheduling, are not merged yet. Everything the UI needs from them is declared in one file, `src/contracts.ts`: types, expected endpoint paths and `fromSeam`, which asks the agent for the live endpoint and falls back to `src/fixtures.ts`. Screens show a "Fixture" badge wherever data did not come from the backend. When a branch merges, check its response shape against the type in `contracts.ts`; the screen switches to live without other changes.
+Every screen reads the agent live; there are no local fixtures, and if the agent is down the screen says so. The funnel, audit, reversal and outbox calls are in `src/api/phase1.ts`. Everything else the screens use is declared in one file, `src/contracts.ts`: the held-out model result (`/model/report`) and Eric's comparisons (`/model/comparisons`), learned scores for the shortlist (`/scores`), how a draft was made (`/drafts/:id/meta`), the calendar and its actions, and the weekly brief. Its types mirror `src/agent/views.ts` and `src/calibration/trainingReport.ts` in the backend, and the numbers on the Training screen are the ones in `data/calibration/EVAL.md`.
 
 ## The approval gate
 

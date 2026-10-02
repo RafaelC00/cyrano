@@ -1,7 +1,8 @@
 import { createSystem } from '../src/system.ts';
 
 /** Runs the whole funnel over the seeded pool and prints what actually happened. */
-const sys = createSystem();
+// The clock is pinned so the dates in the draft are the same on every run.
+const sys = createSystem({ clock: () => new Date('2026-10-02T09:00:00.000Z') });
 const { app, platform } = sys;
 
 async function api<T>(method: string, path: string, body?: unknown): Promise<T> {
@@ -46,9 +47,16 @@ for (const item of gate.items) {
 }
 console.log(`\nHuman accepted candidates until one matched: match ${matchId ?? 'none'}`);
 if (matchId) {
-  const draft = await api<{ id: string; body: string }>('POST', `/matches/${matchId}/drafts`);
-  console.log(`  draft ${draft.id}: "${draft.body}"`);
-  console.log(`  messages sent by the viewer so far: ${platform.store.viewerMessageCount()}`);
-  await api('POST', `/drafts/${draft.id}/approve`, { seenBody: draft.body });
-  console.log(`  after explicit approval: ${platform.store.viewerMessageCount()}`);
+  // The Drafter writes the opener (through the prohibited-content check), or says why it will not.
+  const res = await app.request(`/matches/${matchId}/drafts`, { method: 'POST' });
+  if (res.status === 201) {
+    const draft = (await res.json()) as { id: string; body: string };
+    console.log(`  draft ${draft.id}: "${draft.body}"`);
+    console.log(`  messages sent by the viewer so far: ${platform.store.viewerMessageCount()}`);
+    await api('POST', `/drafts/${draft.id}/approve`, { seenBody: draft.body });
+    console.log(`  after explicit approval: ${platform.store.viewerMessageCount()}`);
+  } else {
+    const held = (await res.json()) as { error: { code: string; message: string } };
+    console.log(`  no draft written (${held.error.code}): ${held.error.message}`);
+  }
 }

@@ -1,56 +1,66 @@
 import { useSyncExternalStore } from 'react';
-import { agent } from '../api/phase1.ts';
-import { ENDPOINTS, fromSeam, postSeam } from '../contracts.ts';
-import type { CalendarState, DateProposal, ProposalStatus, Sourced, Stay } from '../contracts.ts';
-import { fixtureCalendar } from '../fixtures.ts';
-import { gateMemory, loadPool } from './data.ts';
+import { ApiError } from '../api/phase1.ts';
+import { agentGet, agentPost, ENDPOINTS } from '../contracts.ts';
+import type { CalendarState, DateProposal, Stay } from '../contracts.ts';
 import { addDays } from './format.ts';
 
-let current: Sourced<CalendarState> | null = null;
-let inflight: Promise<Sourced<CalendarState>> | null = null;
+let current: CalendarState | null = null;
+let inflight: Promise<CalendarState> | null = null;
+let failure: Error | null = null;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((l) => l());
 
-export function loadCalendar(): Promise<Sourced<CalendarState>> {
-  if (current) return Promise.resolve(current);
-  inflight ??= fromSeam<CalendarState>(ENDPOINTS.calendar, async () => {
-    const [pool, gate] = await Promise.all([loadPool().catch(() => []), agent.gate().catch(() => [])]);
-    for (const g of gate) gateMemory.set(g.candidateId, g);
-    return fixtureCalendar(pool, [...gate.map((g) => g.candidateId), ...gateMemory.keys()]);
-  }).then((c) => {
-    current = c;
-    emit();
-    return c;
-  });
+/** The calendar as the agent holds it. Every change goes through the agent and comes back as the new state. */
+export function loadCalendar(force = false): Promise<CalendarState> {
+  if (current && !force) return Promise.resolve(current);
+  if (force) inflight = null;
+  inflight ??= agentGet<CalendarState>(ENDPOINTS.calendar)
+    .then((c) => {
+      current = c;
+      failure = null;
+      emit();
+      return c;
+    })
+    .catch((e: Error) => {
+      failure = e;
+      inflight = null;
+      emit();
+      throw e;
+    });
   return inflight;
 }
 
 const subscribe = (l: () => void) => (listeners.add(l), () => void listeners.delete(l));
-export const useCalendar = (): Sourced<CalendarState> | null => {
-  const c = useSyncExternalStore(subscribe, () => current);
-  if (!c && !inflight) void loadCalendar();
-  return c;
+export const useCalendar = (): { cal: CalendarState | null; error: Error | null } => {
+  const cal = useSyncExternalStore(subscribe, () => current);
+  const error = useSyncExternalStore(subscribe, () => failure);
+  if (!cal && !inflight && !error) void loadCalendar().catch(() => undefined);
+  return { cal, error };
 };
 
 export const stayOn = (stays: Stay[], date: string): Stay | undefined => stays.find((s) => date >= s.from && date < s.to);
 
-function replace(id: string, patch: Partial<DateProposal>) {
-  if (!current) return;
-  current = { ...current, data: { ...current.data, proposals: current.data.proposals.map((p) => (p.id === id ? { ...p, ...patch } : p)) } };
+function adopt(next: CalendarState) {
+  current = next;
+  failure = null;
   emit();
 }
 
 /** Marking a date confirmed is a human action: it records that she agreed. It sends nothing. */
-export async function setStatus(id: string, status: ProposalStatus) {
-  await postSeam(status === 'confirmed' ? ENDPOINTS.calendarConfirm(id) : `${ENDPOINTS.calendar}/${id}/${status}`, {}, () => null);
-  replace(id, { status });
+export async function confirmProposal(id: string) {
+  adopt(await agentPost<CalendarState>(ENDPOINTS.calendarConfirm(id)));
+}
+
+/** Gives back every hold with her, or the confirmed date. It sends nothing either. */
+export async function dropProposal(id: string) {
+  adopt(await agentPost<CalendarState>(ENDPOINTS.calendarDrop(id)));
 }
 
 export type MoveResult = { ok: true; message: string } | { ok: false; message: string };
 
-/** Checks a move without doing it: right city that day, not in the past, no overlap. */
-export function validateMove(id: string, newStart: string): (MoveResult & { end?: string; proposal?: DateProposal }) {
-  const cal = current?.data;
+/** Checks a move without doing it: right city that day, not in the past, no overlap. The agent checks again, including sleep. */
+export function validateMove(id: string, newStart: string): MoveResult & { end?: string; proposal?: DateProposal } {
+  const cal = current;
   const p = cal?.proposals.find((x) => x.id === id);
   if (!cal || !p) return { ok: false, message: 'No such date.' };
   const day = newStart.slice(0, 10);
@@ -66,13 +76,17 @@ export function validateMove(id: string, newStart: string): (MoveResult & { end?
   return { ok: true, message: 'ok', end, proposal: p };
 }
 
-/** Moves a proposal to a new local start, keeping its length. Refuses a day he is not in the date's city. */
+/** Moves a date to a new local start. The agent refuses a day he is not in the city, a time he sleeps, or a clash. */
 export async function moveProposal(id: string, newStart: string): Promise<MoveResult> {
   const v = validateMove(id, newStart);
   if (!v.ok) return v;
-  await postSeam(ENDPOINTS.calendarMove(id), { start: newStart }, () => null);
+  try {
+    adopt(await agentPost<CalendarState>(ENDPOINTS.calendarMove(id), { start: newStart.slice(0, 16) }));
+  } catch (e) {
+    if (e instanceof ApiError) return { ok: false, message: e.message };
+    throw e;
+  }
   // A moved date is a new proposal: it has to be agreed again.
-  replace(id, { start: newStart.slice(0, 19), end: v.end!, status: 'proposed' });
   return { ok: true, message: `Moved to ${newStart.slice(0, 10)} ${newStart.slice(11, 16)}. It needs their agreement again; nothing has been sent.` };
 }
 

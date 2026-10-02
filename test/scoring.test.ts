@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { ericPreferences } from '../src/calibration/eric.ts';
+import { ericPreferences } from '../src/agent/preferences.ts';
 import { StatedPreferenceScorer } from '../src/agent/scoring.ts';
 import { mulberry32 } from '../src/platform/rng.ts';
 import { FEATURES, featureVector } from '../src/scoring/features.ts';

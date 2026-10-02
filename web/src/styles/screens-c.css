@@ -274,6 +274,29 @@
   max-width: 52ch;
   text-wrap: pretty;
 }
+.brief__evidence {
+  font-size: 13.5px;
+}
+.brief__evidence ul {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--text-dim, inherit);
+}
+.brief__side {
+  display: grid;
+  gap: 8px;
+  max-width: 920px;
+  margin-top: 28px;
+}
+.brief__side ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14.5px;
+}
 .brief__foot {
   display: flex;
   gap: 10px;

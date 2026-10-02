@@ -115,12 +115,12 @@ export function explainWhy(t: TrackedCandidate | undefined, prefs: Preferences, 
 
   if (t?.score) {
     const top = Object.entries(t.score.components)
-      .filter(([, v]) => v > 0)
+      .filter(([k, v]) => v > 0 && k !== 'baseline') // the learned scorer's 0.5 starting point is not a reason
       .sort((a, b) => b[1] - a[1])
       .slice(0, 2);
     if (top.length) {
-      evidence.push(`Ranking: strongest contributions were ${top.map(([k, v]) => `${COMPONENT_LABELS[k] ?? k} (${v})`).join(' and ')}; scorer ${t.score.scorer}.`);
-      if (!shared.length) headlineBits.push(`strongest signal is ${COMPONENT_LABELS[top[0]![0]] ?? top[0]![0]}`);
+      evidence.push(`Ranking: strongest contributions were ${top.map(([k, v]) => `${COMPONENT_LABELS[k] ?? k.replaceAll('_', ' ')} (${v})`).join(' and ')}; scorer ${t.score.scorer}.`);
+      if (!shared.length) headlineBits.push(`strongest signal is ${COMPONENT_LABELS[top[0]![0]] ?? top[0]![0].replaceAll('_', ' ')}`);
     }
     if (t.score.explanation) evidence.push(`Scorer's note: ${t.score.explanation}.`);
   }

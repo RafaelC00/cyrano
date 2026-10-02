@@ -1,10 +1,9 @@
 import { agent, ApiError } from '../api/phase1.ts';
-import { ENDPOINTS, fromSeam } from '../contracts.ts';
+import { agentGet, ENDPOINTS } from '../contracts.ts';
 import type { ModelReport } from '../contracts.ts';
-import { fixtureModelReport, kindWord } from '../fixtures.ts';
 import { loadCalendar, moveProposal, stayOn, validateMove } from '../lib/calendar.ts';
 import { gateMemory, loadPool, loadSnapshot, firstName } from '../lib/data.ts';
-import { addDays, day, dayLong, plural, ruleLabel, time } from '../lib/format.ts';
+import { addDays, day, dayLong, kindWord, pct, plural, ruleLabel, time } from '../lib/format.ts';
 import { invalidateAll } from '../lib/resource.ts';
 import type { ScreenId } from '../lib/router.ts';
 import { getProvider } from './provider.ts';
@@ -39,8 +38,8 @@ async function context(mem: Memory): Promise<ParseContext> {
   const pool = await loadPool().catch(() => []);
   const cal = await loadCalendar().catch(() => null);
   const seen = new Map<string, PersonKey>(pool.map((c) => [c.id, { id: c.id, name: c.displayName }]));
-  for (const p of cal?.data.proposals ?? []) seen.set(p.person.id, { id: p.person.id, name: p.person.displayName });
-  return { people: [...seen.values()], lastPersonId: mem.lastPersonId, today: cal?.data.today ?? new Date().toISOString().slice(0, 10) };
+  for (const p of cal?.proposals ?? []) seen.set(p.person.id, { id: p.person.id, name: p.person.displayName });
+  return { people: [...seen.values()], lastPersonId: mem.lastPersonId, today: cal?.today ?? new Date().toISOString().slice(0, 10) };
 }
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -194,7 +193,7 @@ async function droppedBy(rule: string): Promise<Block[]> {
 }
 
 async function calendar(): Promise<Block[]> {
-  const cal = (await loadCalendar()).data;
+  const cal = (await loadCalendar());
   const up = cal.proposals.filter((p) => p.status !== 'declined' && p.start.slice(0, 10) >= cal.today).sort((a, b) => a.start.localeCompare(b.start));
   if (!up.length) return [{ t: 'p', text: 'Nothing is on the calendar.' }];
   return [
@@ -205,7 +204,7 @@ async function calendar(): Promise<Block[]> {
 }
 
 async function where(): Promise<Block[]> {
-  const cal = (await loadCalendar()).data;
+  const cal = (await loadCalendar());
   const here = stayOn(cal.stays, cal.today);
   const next = cal.stays.filter((s) => s.from > cal.today).slice(0, 2);
   return [
@@ -215,13 +214,17 @@ async function where(): Promise<Block[]> {
 }
 
 async function model(): Promise<Block[]> {
-  const people = (await loadPool().catch(() => [])).slice(0, 4).map((c) => ({ id: c.id, displayName: c.displayName, age: c.declared.age, city: c.declared.city, photoRef: c.photos[0]?.photoRef ?? null }));
-  const r = await fromSeam<ModelReport>(ENDPOINTS.modelReport, () => fixtureModelReport(64, people));
-  const f = r.data.finding;
+  const r = await agentGet<ModelReport>(ENDPOINTS.modelReport);
+  const learned = r.scorers.find((x) => x.key === 'learned')!;
+  const stated = r.scorers.find((x) => x.key === 'stated')!;
   return [
-    { t: 'p', text: f ? f.title : `It has ${r.data.labels.count} labels and will not say anything until it has 40.` },
-    ...(f ? [{ t: 'p' as const, tone: 'dim' as const, text: f.evidence }] : []),
-    ...(r.source === 'fixture' ? [{ t: 'p' as const, tone: 'dim' as const, text: 'This is a fixture finding; the scoring service is not merged yet.' }] : []),
+    { t: 'p', text: r.finding.title },
+    { t: 'p', tone: 'dim', text: r.finding.evidence },
+    {
+      t: 'p',
+      tone: 'dim',
+      text: `Held out, over ${r.setup.trials} splits: the learned model picks the same person as the label ${pct(learned.accuracy.mean)} of the time, the stated-preference baseline ${pct(stated.accuracy.mean)}. The labels come from a function we wrote and the model fits that shape, so this checks the method, not a person.`,
+    },
     { t: 'actions', items: [{ label: 'Open Training', action: { kind: 'go', screen: 'training' } }] },
   ];
 }
@@ -251,7 +254,7 @@ function resolveTarget(orig: string, which: DayRef, to: MoveTarget): string {
 
 async function move(which0: DayRef | null, to: MoveTarget | null, who: PersonKey | null, _ctx: ParseContext): Promise<Block[]> {
   let which = which0;
-  const cal = (await loadCalendar()).data;
+  const cal = (await loadCalendar());
   const live = cal.proposals.filter((p) => p.status !== 'declined' && p.start.slice(0, 10) >= cal.today).sort((a, b) => a.start.localeCompare(b.start));
   if (!live.length) return [{ t: 'p', text: 'There are no dates to move.' }];
 

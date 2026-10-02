@@ -1,12 +1,13 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { mulberry32 } from '../src/platform/rng.ts';
-import { ericPreferences } from '../src/calibration/eric.ts';
+import { calibrationPreferences, STATED_CLAIMS } from '../src/calibration/eric.ts';
 import { buildDivergence, renderDivergenceReport } from '../src/calibration/divergence.ts';
 import { aggregate, bootstrapWeights, latentInModelUnits, runTrial, spearman, summarise } from '../src/calibration/evaluate.ts';
 import { IDIOSYNCRASY_SD, LAPSE_RATE, LATENT_WEIGHTS, idiosyncrasy, latentSignal } from '../src/calibration/latent.ts';
 import { CALIBRATION_POOL_SIZE, CALIBRATION_SEED, calibrationPool } from '../src/calibration/pool.ts';
 import { recovery, renderEvalReport } from '../src/calibration/report.ts';
+import { buildComparisons, buildTrainingReport } from '../src/calibration/trainingReport.ts';
 import { assignPortrait, defaultLibrary } from '../src/vision/library.ts';
 import { FEATURES } from '../src/scoring/features.ts';
 import { MODEL_PATH } from '../src/scoring/learned.ts';
@@ -26,7 +27,7 @@ const TRAIN = 600;
 const TEST = 300;
 const TRIALS = 30;
 const HEADLINE_SEED = 1;
-const prefs = ericPreferences();
+const prefs = calibrationPreferences();
 const pool = calibrationPool(prefs);
 console.log(`calibration pool: ${pool.length} eligible of ${CALIBRATION_POOL_SIZE} generated`);
 
@@ -90,6 +91,22 @@ writeFileSync(`${OUT}ground-truth.json`, JSON.stringify({
   lapseRate: LAPSE_RATE,
   people: Object.fromEntries(pool.map((c) => [c.id, { signal: Math.round(latentSignal(c, prefs) * 1000) / 1000, idiosyncrasy: Math.round(idiosyncrasy(c) * 1000) / 1000 }])),
 }, null, 0));
+writeFileSync(`${OUT}report.json`, JSON.stringify(buildTrainingReport({
+  linear: aggregate(linearTrials),
+  nonlinear: aggregate(nonlinearTrials),
+  headline,
+  rec,
+  divergence: div,
+  curve,
+  pooled: linearTrials,
+  pool: { generated: CALIBRATION_POOL_SIZE, eligible: pool.length },
+  lapse: LAPSE_RATE,
+  idiosyncrasySd: IDIOSYNCRASY_SD,
+  claims: STATED_CLAIMS,
+  trialsLabels: { train: TRAIN, test: TEST },
+  portraits: { library: defaultLibrary().size, inCalibrationPool: new Set(pool.map((c) => assignPortrait(c)?.id)).size },
+}), null, 1));
+writeFileSync(`${OUT}comparisons.json`, JSON.stringify(buildComparisons(trainPeople, headline.trainLabels, prefs)));
 writeFileSync(`${OUT}EVAL.md`, evalMd + '\n');
 writeFileSync(`${OUT}DIVERGENCE.md`, divMd + '\n');
 const agg = aggregate(linearTrials);
@@ -98,4 +115,4 @@ writeFileSync(`${OUT}eval.json`, JSON.stringify({ trials: TRIALS, trainLabels: T
 const f = (x: number) => x.toFixed(3);
 console.log(`held-out label accuracy   learned ${f(agg.table.learned.labelAccuracy.mean)}   stated-preference-v1 ${f(agg.table.statedBaseline.labelAccuracy.mean)}   oracle ${f(agg.table.oracle.labelAccuracy.mean)}`);
 console.log(`recovery: cosine ${f(rec.cosine)}, signs ${rec.signAgreement.ok}/${rec.signAgreement.of}, spurious ${rec.spuriousCount}`);
-console.log('wrote data/calibration/{model,labels,ground-truth,eval}.json, EVAL.md, DIVERGENCE.md');
+console.log('wrote data/calibration/{model,labels,ground-truth,eval,report,comparisons}.json, EVAL.md, DIVERGENCE.md');

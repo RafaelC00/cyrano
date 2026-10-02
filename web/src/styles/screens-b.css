@@ -333,6 +333,120 @@
   border-radius: 10px;
 }
 
+.tcard--picked {
+  border-color: rgba(217, 178, 111, 0.55);
+  background: var(--accent-wash);
+}
+.tcard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.lg--built {
+  border: 1.5px solid var(--accent);
+  transform: rotate(45deg) scale(0.85);
+}
+.axis__built {
+  top: 3px;
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  border: 1.5px solid var(--accent);
+  background: var(--bg-raised);
+  transform: rotate(45deg);
+}
+.axis__nums {
+  font-size: 11px;
+}
+.model__more {
+  margin-top: 6px;
+}
+.model__more summary {
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 12.5px;
+}
+.caveat {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: var(--r);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-sunk);
+}
+.caveat ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.scorers {
+  display: grid;
+  font-size: 13px;
+}
+.scorers__head,
+.scorers__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr) 90px;
+  gap: 14px;
+  align-items: center;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+}
+.scorers__head {
+  border-top: 0;
+  font: 500 10px/1.3 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+.scorers__acc {
+  display: grid;
+  gap: 4px;
+}
+.scorers__bar {
+  position: relative;
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-sunk);
+}
+.scorers__bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 3px;
+  background: var(--text-faint);
+}
+.scorers__row--learned .scorers__bar i {
+  background: var(--info);
+}
+.scorers__row--mobility .scorers__bar i {
+  background: var(--bad);
+}
+.scorers__bar b,
+.scorers__bar u {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
+  background: var(--line-strong);
+}
+.scorers__bar u {
+  background: var(--accent);
+}
+@media (max-width: 720px) {
+  .scorers__head {
+    display: none;
+  }
+  .scorers__row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
 /* =================================================================== drafts */
 
 .drafts {

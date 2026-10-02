@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { ericPreferences, STATED_CLAIMS } from '../src/calibration/eric.ts';
+import { calibrationPreferences } from '../src/calibration/eric.ts';
+import { STATED_CLAIMS } from '../src/calibration/eric.ts';
 import { buildDivergence, renderDivergenceReport } from '../src/calibration/divergence.ts';
 import { aggregate, bootstrapWeights, runTrial, splitPool } from '../src/calibration/evaluate.ts';
 import { LATENT_WEIGHTS, generateLabels, latentUtility } from '../src/calibration/latent.ts';
@@ -9,7 +10,7 @@ import { calibrationPool } from '../src/calibration/pool.ts';
 import { RULES } from '../src/agent/rules.ts';
 import { mulberry32 } from '../src/platform/rng.ts';
 
-const prefs = ericPreferences();
+const prefs = calibrationPreferences();
 const pool = calibrationPool(prefs);
 
 test('the calibration pool is separate from the funnel pool and passes his declared rules (city aside)', () => {

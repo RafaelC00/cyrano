@@ -4,7 +4,7 @@ import { buildWeeklyBrief, explainWhy } from '../src/brief/brief.ts';
 import type { BriefInput } from '../src/brief/brief.ts';
 import { renderBrief } from '../src/brief/render.ts';
 import { Scheduler } from '../src/schedule/scheduler.ts';
-import { ericPreferences } from '../src/schedule/persona.ts';
+import { ericPreferences } from '../src/agent/preferences.ts';
 import { makeSys } from './helpers.ts';
 import { makeCalendar, NOW, TODAY } from './week-helpers.ts';
 

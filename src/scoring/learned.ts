@@ -60,6 +60,20 @@ export class LearnedScorer implements Scorer {
     const raw = Object.values(components).reduce((s, v) => s + v, 0);
     return { score: round(clamp01(raw)), components, explanation: explain(this.model, parts, c, p), scorer: this.name };
   }
+
+  /** The largest contributions to this person's score, signed, in the same 0..1 units as `score`. */
+  factors(c: Candidate, p: Preferences, n = 3): Array<{ label: string; contribution: number }> {
+    const inputs = inputsFor(c, p);
+    const parts = contributions(this.model, featureVector(c, p));
+    return FEATURES.map((f, j) => {
+      const sd = this.model.std[j]!;
+      const z = sd === 0 ? 0 : (f.value(inputs) - this.model.mean[j]!) / sd;
+      return { label: z > 0 ? f.high : f.low, contribution: round(parts[j]! / (2 * LOGIT_SPAN)) };
+    })
+      .filter((x) => Math.abs(x.contribution) >= 0.005)
+      .sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution))
+      .slice(0, n);
+  }
 }
 
 /** The three largest pushes up and the largest push down, as a sentence. */

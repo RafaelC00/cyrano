@@ -1,5 +1,6 @@
 import type { Context } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import { CalendarError } from './calendar/types.ts';
 
 export class HttpError extends Error {
   status: number;
@@ -15,6 +16,9 @@ export class HttpError extends Error {
 export function handleError(err: Error, c: Context): Response {
   if (err instanceof HttpError) {
     return c.json({ error: { code: err.code, message: err.message } }, err.status as ContentfulStatusCode);
+  }
+  if (err instanceof CalendarError) {
+    return c.json({ error: { code: err.code, message: err.message } }, err.code === 'not_found' ? 404 : 409);
   }
   console.error(err);
   return c.json({ error: { code: 'internal', message: 'Internal error' } }, 500);

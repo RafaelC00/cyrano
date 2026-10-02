@@ -1,32 +1,15 @@
+import { ericPreferences } from '../agent/preferences.ts';
 import type { Preferences } from '../agent/preferences.ts';
 
 /**
- * Eric Vossberg's STATED preferences, as a `Preferences` object for the rule layer and scorers.
- * Everything here is something the invented persona said about himself (see the persona notes);
- * every hard constraint maps to a self-declared profile field.
- *
- * Assumption, flagged: the persona does not say who Eric is attracted to. `interestedIn` is set
- * to women so the pool is non-trivial; it has no effect on scoring.
+ * The preferences the calibration in `data/calibration` was run with: Eric's, with the three
+ * cities he was booked into when it was generated. His itinerary later gained Madrid, which is
+ * in his default preferences now. The calibration pool ignores the city rule, and the one
+ * feature that reads the list (`in_his_cities`) carries almost no weight, but the result is
+ * only reproducible against these exact preferences, so they stay frozen here.
  */
-export function ericPreferences(): Preferences {
-  return {
-    viewer: {
-      age: 34,
-      gender: 'man',
-      interestedIn: ['woman'],
-      languages: ['en', 'de', 'es', 'nl'],
-      interests: ['travel', 'running', 'coffee', 'chess', 'language learning', 'jazz', 'podcasts', 'museums'],
-      intents: ['long-term', 'open'],
-    },
-    ageRange: { min: 26, max: 34 },
-    // His current city, plus cities he will be in within six weeks. The pool has no Dubai or Singapore.
-    cities: ['Amsterdam', 'Lisbon', 'Berlin'],
-    requireSharedLanguage: true,
-    excludedSmoking: ['sometimes', 'regularly'],
-    excludedChildren: ['want'],
-    dormantAfterDays: 30,
-    gateSize: 10,
-  };
+export function calibrationPreferences(): Preferences {
+  return { ...ericPreferences(), cities: ['Amsterdam', 'Lisbon', 'Berlin'] };
 }
 
 /**

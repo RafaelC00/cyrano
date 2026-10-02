@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { AGENT_BASE } from '../api/phase1.ts';
 import { ENDPOINTS } from '../contracts.ts';
 import type { CalendarState, DateProposal } from '../contracts.ts';
-import { kindWord } from '../fixtures.ts';
-import { moveProposal, setStatus, stayOn, useCalendar, weekStart } from '../lib/calendar.ts';
-import { addDays, day, dayLong, shortDate, time, weekdayIndex } from '../lib/format.ts';
-import { downloadIcs } from '../lib/ics.ts';
+import { confirmProposal, dropProposal, loadCalendar, moveProposal, stayOn, useCalendar, weekStart } from '../lib/calendar.ts';
+import { addDays, day, dayLong, kindWord, shortDate, time, weekdayIndex } from '../lib/format.ts';
 import { href } from '../lib/router.ts';
-import { Icon, Loading, PageHeader, Photo, SourceBadge } from '../ui/kit.tsx';
+import { ErrorBox, Icon, Loading, PageHeader, Photo } from '../ui/kit.tsx';
 
 const CITY_HUE: Record<string, number> = { Madrid: 28, Lisbon: 200, Amsterdam: 150, Singapore: 300, Barcelona: 10, Porto: 230, Berlin: 60, Dubai: 40 };
 const hue = (city: string) => CITY_HUE[city] ?? 100;
@@ -50,11 +48,21 @@ function Pill({ p, on, onClick }: { p: DateProposal; on: boolean; onClick: () =>
   );
 }
 
-function Detail({ p, cal, live }: { p: DateProposal; cal: CalendarState; live: boolean }) {
+function Detail({ p, cal }: { p: DateProposal; cal: CalendarState }) {
   const [date, setDate] = useState(p.start.slice(0, 10));
   const [clock, setClock] = useState(p.start.slice(11, 16));
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  useEffect(() => (setDate(p.start.slice(0, 10)), setClock(p.start.slice(11, 16)), setMsg(null)), [p.id, p.start]);
+  const [err, setErr] = useState<Error | null>(null);
+  useEffect(() => (setDate(p.start.slice(0, 10)), setClock(p.start.slice(11, 16)), setMsg(null), setErr(null)), [p.id, p.start]);
+
+  const act = async (fn: () => Promise<unknown>) => {
+    setErr(null);
+    try {
+      await fn();
+    } catch (e) {
+      setErr(e as Error);
+    }
+  };
 
   const move = async () => {
     const r = await moveProposal(p.id, `${date}T${clock}:00`);
@@ -84,7 +92,9 @@ function Detail({ p, cal, live }: { p: DateProposal; cal: CalendarState; live: b
         <div>
           <dt>Where</dt>
           <dd>
-            {p.venue}, {p.city}
+            {p.venue ? `${p.venue}, ` : ''}
+            {p.city}
+            {p.venue ? null : <span className="faint"> · place to be agreed</span>}
           </dd>
         </div>
         <div>
@@ -111,43 +121,43 @@ function Detail({ p, cal, live }: { p: DateProposal; cal: CalendarState; live: b
       </div>
 
       <div className="cdetail__actions">
-        {p.status !== 'confirmed' ? (
-          <button className="btn btn--primary" onClick={() => setStatus(p.id, 'confirmed')}>
+        {p.status === 'proposed' ? (
+          <button className="btn btn--primary" onClick={() => act(() => confirmProposal(p.id))}>
             <Icon name="check" size={16} /> They agreed: mark confirmed
           </button>
-        ) : (
-          <button className="btn" onClick={() => setStatus(p.id, 'proposed')}>
-            Back to proposed
-          </button>
-        )}
-        <button className="btn" onClick={() => downloadIcs([p], `cyrano-${p.id}.ics`)}>
-          <Icon name="download" size={16} /> .ics
-        </button>
+        ) : null}
         {p.status !== 'declined' ? (
-          <button className="btn btn--ghost btn--danger" onClick={() => setStatus(p.id, 'declined')}>
-            Drop it
+          <button className="btn btn--ghost btn--danger" onClick={() => act(() => dropProposal(p.id))}>
+            {p.status === 'confirmed' ? 'Cancel this date' : 'Drop it'}
           </button>
         ) : null}
         <a className="btn btn--ghost" href={href('why', p.person.id)}>
           Why this person
         </a>
       </div>
-      {live ? null : <p className="faint">Confirming is recorded in this browser until the scheduling service is merged.</p>}
+      {err ? <ErrorBox error={err} /> : null}
+      <p className="faint">Confirming, moving and dropping change Eric's own calendar. None of them sends anything; dropping gives back every slot held for her.</p>
     </aside>
   );
 }
 
 export default function Calendar() {
-  const res = useCalendar();
+  const { cal, error } = useCalendar();
   const [sel, setSel] = useState<string | null>(null);
 
-  if (!res) return (<><PageHeader eyebrow="Scheduling" title={<>The calendar.</>} /><Loading /></>);
-  const cal = res.data;
+  if (!cal) {
+    return (
+      <>
+        <PageHeader eyebrow="Scheduling" title={<>The calendar.</>} />
+        {error ? <ErrorBox error={error} retry={() => void loadCalendar(true).catch(() => undefined)} /> : <Loading />}
+      </>
+    );
+  }
   const props = cal.proposals.filter((p) => p.status !== 'declined');
   const confirmed = props.filter((p) => p.status === 'confirmed');
   const selected = cal.proposals.find((p) => p.id === (sel ?? props[0]?.id));
   const start = weekStart(cal.today);
-  const weeks = [0, 1, 2].map((w) => addDays(start, w * 7));
+  const weeks = [0, 1, 2, 3, 4, 5].map((w) => addDays(start, w * 7));
 
   return (
     <>
@@ -160,18 +170,9 @@ export default function Calendar() {
         }
         lede="Proposed and confirmed dates, placed only where Eric will actually be. A proposal becomes a date when you say they agreed."
         right={
-          <>
-            <SourceBadge source={res.source} what="The scheduling service is not merged yet. The schedule is a local fixture; the people are real entries from the pool." />
-            {res.source === 'live' ? (
-              <a className="btn" href={`${AGENT_BASE}${ENDPOINTS.calendarIcs}`} download="cyrano-dates.ics">
-                <Icon name="download" size={16} /> Download .ics
-              </a>
-            ) : (
-              <button className="btn" onClick={() => downloadIcs(props)} disabled={!props.length}>
-                <Icon name="download" size={16} /> Download .ics
-              </button>
-            )}
-          </>
+          <a className="btn" href={`${AGENT_BASE}${ENDPOINTS.calendarIcs}`} download="cyrano-dates.ics">
+            <Icon name="download" size={16} /> Download .ics
+          </a>
         }
       />
 
@@ -186,7 +187,7 @@ export default function Calendar() {
             <span>
               <b className="mono">{props.length - confirmed.length}</b> proposed
             </span>
-            <span className="faint">The .ics file marks proposals as tentative.</span>
+            <span className="faint">The .ics file holds confirmed dates only.</span>
           </div>
           {weeks.map((ws) => (
             <section key={ws} className="week" aria-label={`Week of ${shortDate(ws)}`}>
@@ -212,7 +213,7 @@ export default function Calendar() {
             </section>
           ))}
         </div>
-        {selected ? <Detail p={selected} cal={cal} live={res.source === 'live'} /> : null}
+        {selected ? <Detail p={selected} cal={cal} /> : null}
       </div>
     </>
   );

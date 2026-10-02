@@ -280,32 +280,6 @@ button.chip[aria-pressed='true'] {
   border-color: var(--accent);
 }
 
-.badge-fixture {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 1px 8px;
-  border-radius: 4px;
-  font: 500 10.5px/1.7 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--info);
-  border: 1px dashed rgba(143, 166, 201, 0.5);
-  background: var(--info-wash);
-}
-.badge-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 1px 8px;
-  border-radius: 4px;
-  font: 500 10.5px/1.7 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ok);
-  border: 1px solid rgba(143, 184, 154, 0.4);
-}
-
 .field {
   display: flex;
   flex-direction: column;

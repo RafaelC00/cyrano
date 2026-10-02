@@ -56,6 +56,33 @@ export function recovery(model: PairwiseModel, latentUnits: number[], ci: Array<
   };
 }
 
+/** Reliability bins over the held-out labels of every trial: predicted P(first picked) against what happened. */
+export function calibrationBins(trials: Trial[]) {
+  const edges = [0, 0.2, 0.4, 0.6, 0.8, 1.0000001];
+  const all = trials.flatMap((t) => t.predictions);
+  const bins: Array<{ from: number; to: number; n: number; predicted: number; observed: number }> = [];
+  let ece = 0;
+  let total = 0;
+  for (let i = 0; i < edges.length - 1; i++) {
+    const rows = all.filter((p) => p.p >= edges[i]! && p.p < edges[i + 1]!);
+    if (!rows.length) continue;
+    const predicted = rows.reduce((s, r) => s + r.p, 0) / rows.length;
+    const observed = rows.reduce((s, r) => s + r.y, 0) / rows.length;
+    ece += rows.length * Math.abs(predicted - observed);
+    total += rows.length;
+    bins.push({ from: edges[i]!, to: Math.min(1, edges[i + 1]!), n: rows.length, predicted, observed });
+  }
+  return { bins, ece: ece / total };
+}
+
+/** Headline-split labels where the model was at least `minMargin` logits sure and the label went the other way. */
+export function confidentMisses(headline: Trial, minMargin = 2) {
+  return headline.predictions
+    .filter((p) => Math.abs(p.margin) >= minMargin && (p.margin > 0 ? 1 : 0) !== p.y)
+    .sort((a, b) => Math.abs(b.margin) - Math.abs(a.margin))
+    .map((p) => ({ preferred: p.margin > 0 ? p.a : p.b, picked: p.chosen, margin: Math.abs(p.margin) }));
+}
+
 export interface EvalInputs {
   linear: Agg;
   nonlinear: Agg;
@@ -177,23 +204,13 @@ export function renderEvalReport(e: EvalInputs): string {
   out();
   out('Does "70% sure he picks A" mean A wins about 70% of the time? Held-out labels pooled over all trials, grouped by the model\'s predicted probability that the first person is picked.');
   out();
-  const bins = [0, 0.2, 0.4, 0.6, 0.8, 1.0000001];
   out('| predicted P(first picked) | labels | predicted mean | observed |');
   out('|---|---:|---:|---:|');
-  let ece = 0;
-  let total = 0;
   const allPreds = e.pooled.flatMap((t) => t.predictions);
-  for (let i = 0; i < bins.length - 1; i++) {
-    const rows = allPreds.filter((p) => p.p >= bins[i]! && p.p < bins[i + 1]!);
-    if (!rows.length) continue;
-    const pm = rows.reduce((s, r) => s + r.p, 0) / rows.length;
-    const om = rows.reduce((s, r) => s + r.y, 0) / rows.length;
-    ece += rows.length * Math.abs(pm - om);
-    total += rows.length;
-    out(`| ${bins[i]!.toFixed(1)} to ${Math.min(1, bins[i + 1]!).toFixed(1)} | ${rows.length} | ${f3(pm)} | ${f3(om)} |`);
-  }
+  const cal = calibrationBins(e.pooled);
+  for (const b of cal.bins) out(`| ${b.from.toFixed(1)} to ${b.to.toFixed(1)} | ${b.n} | ${f3(b.predicted)} | ${f3(b.observed)} |`);
   out();
-  out(`Expected calibration error: ${f3(ece / total)}. Log loss on held-out labels, headline split: learned ${f3(e.headline.logLoss.learned)} versus oracle ${f3(e.headline.logLoss.oracle)} (lower is better; ${f3(Math.log(2))} is a coin flip).`);
+  out(`Expected calibration error: ${f3(cal.ece)}. Log loss on held-out labels, headline split: learned ${f3(e.headline.logLoss.learned)} versus oracle ${f3(e.headline.logLoss.oracle)} (lower is better; ${f3(Math.log(2))} is a coin flip).`);
   out();
   out('## Where the model is confident and wrong');
   out();

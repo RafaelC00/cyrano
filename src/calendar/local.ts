@@ -4,9 +4,9 @@ import { dirname } from 'node:path';
 import { buildIcs } from './ics.ts';
 import { zoneOf } from './itinerary.ts';
 import type { Itinerary } from './itinerary.ts';
-import { computeSlots, ERIC_RHYTHM } from './slots.ts';
+import { computeSlots, ERIC_RHYTHM, isAsleep, SLOT_SHAPES } from './slots.ts';
 import type { Rhythm } from './slots.ts';
-import { dayInZone } from './time.ts';
+import { dayInZone, isDayString, localToInstant } from './time.ts';
 import { CalendarError } from './types.ts';
 import type {
   BusyBlock,
@@ -16,6 +16,7 @@ import type {
   Hold,
   HoldRequest,
   Slot,
+  SlotAtRequest,
   SlotRequest,
   TimeRange,
 } from './types.ts';
@@ -122,6 +123,37 @@ export class LocalCalendar implements CalendarAdapter {
     return computeSlots({ itinerary: this.itinerary, rhythm: this.rhythm, now: this.clock(), req, busy: this.busyNow() });
   }
 
+  async slotAt(req: SlotAtRequest): Promise<Slot> {
+    const zone = zoneOf(req.city);
+    const m = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(req.localStart);
+    if (!m || !isDayString(m[1])) throw new CalendarError('bad_request', `"${req.localStart}" is not a local date and time like 2026-10-15T20:00`);
+    const day = m[1];
+    const stay = this.itinerary.stayOn(day);
+    if (!stay || stay.city !== req.city) {
+      throw new CalendarError('not_in_city', `Eric is ${stay ? `in ${stay.city}` : 'not booked anywhere'} on ${day}, and this date is in ${req.city}`);
+    }
+    // Proposals skip the arrival and departure days (he is in transit and flights move); so does a chosen time.
+    if (day <= stay.from || day >= stay.to) throw new CalendarError('not_in_city', `${day} is a travel day for Eric (${stay.city} ${stay.from} to ${stay.to}); pick a day inside the stay`);
+    const start = localToInstant(day, m[2]!, zone);
+    const end = new Date(start.getTime() + SLOT_SHAPES[req.kind].minutes * 60_000);
+    if (isAsleep(this.rhythm, zone, start.getTime(), end.getTime())) {
+      throw new CalendarError('bad_request', `Eric is asleep or not yet up at ${m[2]} in ${req.city}; pick another time`);
+    }
+    const startIso = start.toISOString();
+    return {
+      id: `${req.city}|${startIso}|${req.kind}`,
+      kind: req.kind,
+      city: req.city,
+      timezone: zone,
+      day,
+      localStart: `${day}T${m[2]}`,
+      start: startIso,
+      end: end.toISOString(),
+      stay,
+      confidence: this.itinerary.firmness(stay, dayInZone(this.clock(), zone)),
+    };
+  }
+
   /** Same checks a proposal passes on presence and clashes, so a forged slot cannot get in. */
   private validate(slot: Slot, exceptId?: string): void {
     const zone = zoneOf(slot.city);
@@ -139,7 +171,7 @@ export class LocalCalendar implements CalendarAdapter {
   }
 
   async hold(req: HoldRequest): Promise<Hold> {
-    this.validate(req.slot);
+    this.validate(req.slot, req.replaces);
     const now = this.clock();
     const hours = req.ttlHours ?? this.holdHours;
     const hold: Hold = {
@@ -151,6 +183,10 @@ export class LocalCalendar implements CalendarAdapter {
       createdAt: now.toISOString(),
       expiresAt: new Date(now.getTime() + hours * 3_600_000).toISOString(),
     };
+    if (req.replaces) {
+      this.state.holds = this.state.holds.filter((h) => h.id !== req.replaces);
+      this.state.events = this.state.events.filter((e) => e.id !== req.replaces);
+    }
     this.state.holds.push(hold);
     this.save();
     return hold;

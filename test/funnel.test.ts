@@ -113,7 +113,8 @@ test('baseline scorer components sum to the score and stay in 0..1', async () =>
 });
 
 test('rank cutoff drops are recorded with score and position', async () => {
-  const sys = makeSys();
+  // Eric's rules leave 5 of the default 500, fewer than a gate holds; a larger pool leaves enough to cut.
+  const sys = makeSys({ seed: { size: 4000 } });
   const report = await sys.funnel.run();
   assert.ok(report.stages[2]!.dropped > 0, 'default gate size should cut something from this pool');
   const cut = sys.state.all().find((t) => t.drop?.rule === 'rank.cutoff')!;

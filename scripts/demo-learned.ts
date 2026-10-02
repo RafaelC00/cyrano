@@ -1,5 +1,5 @@
 import { parseArgs } from 'node:util';
-import { ericPreferences } from '../src/calibration/eric.ts';
+import { ericPreferences } from '../src/agent/preferences.ts';
 import { describe } from '../src/calibration/divergence.ts';
 import { createScorer, SCORER_NAMES } from '../src/scoring/learned.ts';
 import type { ScorerName } from '../src/scoring/learned.ts';
@@ -17,7 +17,7 @@ import type { ScoreResult } from '../src/agent/scoring.ts';
  */
 const { values } = parseArgs({ options: { scorer: { type: 'string', default: 'learned' }, compare: { type: 'boolean', default: false } } });
 const prefs = ericPreferences();
-// Eric's hard rules are strict: only 5 of the default 500 survive them, too few to show a ranking.
+// Eric's hard rules are strict: only 7 of the default 500 survive them, too few to show a ranking.
 // The same generator at 4000 profiles (the first 500 are identical) leaves enough to rank.
 const POOL = 4000;
 

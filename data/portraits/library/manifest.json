@@ -1,5 +1,5 @@
 {
- "note": "Every portrait is a generated image of an invented person. A library of this size is reused across all profiles (see src/vision/assign.ts).",
+ "note": "Every portrait is a generated image of an invented person. A library of this size is reused across all profiles (see src/vision/library.ts).",
  "generation": "20261002T095001Z",
  "count": 60,
  "entries": [

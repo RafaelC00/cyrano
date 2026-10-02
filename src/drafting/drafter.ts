@@ -2,7 +2,7 @@ import type { Draft } from '../outbox/draft.ts';
 import type { Outbox } from '../outbox/outbox.ts';
 import { checkDraft, threadRejection } from './check.ts';
 import { TemplateGenerator } from './generator.ts';
-import type { Attempt, Citation, DraftContext, DraftGenerator, DraftLang, GeneratedDraft, PresenceClaim } from './types.ts';
+import type { Attempt, Citation, DraftContext, DraftGenerator, DraftLang, GeneratedDraft, PresenceClaim, RuleId } from './types.ts';
 
 export interface DrafterOptions {
   /** Defaults to the free template engine. */
@@ -20,6 +20,8 @@ export type DraftOutcome =
       draft: GeneratedDraft;
       /** Texts that failed the check on the way here, in order. */
       rejected: Attempt[];
+      /** The rules this text passed. */
+      checked: RuleId[];
     }
   | { status: 'held'; reason: HeldReason; message: string; rejected: Attempt[] };
 
@@ -35,6 +37,7 @@ export interface OfferedDraft {
   slotIds: string[];
   slips: number;
   rejected: Attempt[];
+  checked: RuleId[];
 }
 
 export type OfferOutcome = OfferedDraft | Extract<DraftOutcome, { status: 'held' }>;
@@ -83,7 +86,7 @@ export class Drafter {
       }
       if ('refused' in out) return { status: 'held', reason: out.reason, message: out.message, rejected };
       const verdict = checkDraft(out, ctx);
-      if (verdict.ok) return { status: 'ready', draft: out, rejected };
+      if (verdict.ok) return { status: 'ready', draft: out, rejected, checked: verdict.checked };
       rejected.push({ attempt, body: out.body, rejection: verdict.rejection });
     }
     return {
@@ -109,6 +112,7 @@ export class Drafter {
       slotIds: d.slotIds,
       slips: d.slips,
       rejected: outcome.rejected,
+      checked: outcome.checked,
     };
     this.offered.set(draft.id, result);
     return result;

@@ -1,375 +1,333 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ENDPOINTS, fromSeam, postSeam } from '../contracts.ts';
-import type { FeatureWeight, Label, LabelSummary, ModelReport, PersonRef, Source, TrainingItem } from '../contracts.ts';
-import { fixtureModelReport, fixtureTrainingItems, labelSummary, undoLabel, writeLabel } from '../fixtures.ts';
-import { known, loadPool } from '../lib/data.ts';
-import { langName, pct } from '../lib/format.ts';
+import { agentGet, ENDPOINTS } from '../contracts.ts';
+import type { ComparisonPage, FeatureWeight, Interval, ModelReport, PersonSummary } from '../contracts.ts';
+import { pct } from '../lib/format.ts';
 import { useResource } from '../lib/resource.ts';
-import { ErrorBox, Icon, Kbd, Loading, PageHeader, Photo, SourceBadge } from '../ui/kit.tsx';
+import { ErrorBox, Icon, Kbd, Loading, PageHeader, Photo } from '../ui/kit.tsx';
 
-type Mode = 'pair' | 'rating';
+const nice = (key: string) => {
+  const t = key.replaceAll('_', ' ');
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
+const range = (i: Interval, digits = 1) => `${pct(i.lo, digits)} to ${pct(i.hi, digits)}`;
+const plural = (n: number, one: string) => `${n} ${one}${n === 1 ? '' : 's'}`;
 
-function PersonCard({ p, cue, onPick, disabled }: { p: PersonRef; cue?: string; onPick?: () => void; disabled?: boolean }) {
-  const c = known(p.id);
-  const body = (
-    <>
-      <Photo photoRef={p.photoRef} name={p.displayName} className="tcard__photo" />
+function Person({ p, picked, fits, side }: { p: PersonSummary; picked: boolean; fits: boolean; side: 'A' | 'B' }) {
+  return (
+    <div className={`tcard ${picked ? 'tcard--picked' : ''}`} aria-label={`${side}: ${p.name}${picked ? ', picked' : ''}`}>
+      <Photo photoRef={null} name={p.name} className="tcard__photo" />
       <span className="tcard__body">
         <span className="tcard__name serif">
-          {p.displayName}
+          {p.name}
           <span className="mono dim"> {p.age}</span>
         </span>
         <span className="dim">{p.city}</span>
-        {c ? (
-          <>
-            <span className="tcard__line">{c.declared.interests.slice(0, 4).join(' · ')}</span>
-            <span className="tcard__line faint">
-              {c.declared.languages.map(langName).join(', ')} · {c.declared.lookingFor.join(', ')}
-            </span>
-            {c.declared.prompts[0] ? <span className="tcard__quote">“{c.declared.prompts[0].answer}”</span> : null}
-          </>
-        ) : null}
-        {cue ? (
-          <span className="tcard__cue">
-            <Kbd>{cue}</Kbd> choose
-          </span>
-        ) : null}
+        <span className="tcard__line">{p.job}</span>
+        <span className="tcard__line faint">
+          {plural(p.yearsInCity, 'year')} in {p.city} · {plural(p.nightsAwayPerMonth, 'night')} away a month
+          {p.hasPractice ? ' · a practice tied to a place' : ''}
+        </span>
+        <span className="tcard__tags">
+          {picked ? <span className="chip chip--accent">Eric picked this one</span> : null}
+          {fits ? <span className="chip chip--info">fits "mobile and unanchored" better</span> : null}
+        </span>
       </span>
-    </>
-  );
-  return onPick ? (
-    <button className="tcard tcard--btn" onClick={onPick} disabled={disabled}>
-      {body}
-    </button>
-  ) : (
-    <div className="tcard">{body}</div>
-  );
-}
-
-function Progress({ s }: { s: LabelSummary }) {
-  const p = Math.min(1, s.count / s.target);
-  return (
-    <div className="tprog" role="img" aria-label={`${s.count} of ${s.target} labels`}>
-      <div className="tprog__nums">
-        <span className="serif">{s.count}</span>
-        <span className="faint mono">/ {s.target} labels</span>
-      </div>
-      <div className="meter">
-        <i style={{ width: `${p * 100}%` }} />
-      </div>
     </div>
   );
 }
 
+function Comparisons() {
+  const [against, setAgainst] = useState(false);
+  const [index, setIndex] = useState(0);
+  const page = useResource(() => agentGet<ComparisonPage>(`${ENDPOINTS.comparisons}?offset=${index}&n=1${against ? '&against=1' : ''}`), [index, against]);
+  const total = page.data?.total ?? 0;
+  const item = page.data?.items[0];
+
+  const step = useCallback(
+    (d: number) => {
+      if (total) setIndex((i) => (i + d + total) % total);
+    },
+    [total],
+  );
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+      if ((e.target as HTMLElement).closest('input, textarea, select')) return;
+      if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'ArrowRight') step(1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [step]);
+
+  return (
+    <section className="train__label" aria-label="Eric's comparisons">
+      <div className="train__top">
+        <div className="tprog">
+          <div className="tprog__nums">
+            <span className="serif">{total ? index + 1 : 0}</span>
+            <span className="faint mono">/ {total} {against ? 'against what he said' : 'comparisons'}</span>
+          </div>
+        </div>
+        <label className="check">
+          <input
+            type="checkbox"
+            checked={against}
+            onChange={(e) => {
+              setAgainst(e.target.checked);
+              setIndex(0);
+            }}
+          />
+          <span>Only where he picked against what he said</span>
+        </label>
+      </div>
+
+      {page.error ? <ErrorBox error={page.error} retry={page.reload} /> : null}
+      {page.loading && !page.data ? <Loading /> : null}
+
+      {item && page.data ? (
+        <>
+          <p className="train__q serif">Two people. One pick.</p>
+          <div className="pair" key={`${index}-${against}`}>
+            <Person p={page.data.people[item.a]!} picked={item.chosen === 'a'} fits={item.fitsPitch === 'a'} side="A" />
+            <Person p={page.data.people[item.b]!} picked={item.chosen === 'b'} fits={item.fitsPitch === 'b'} side="B" />
+          </div>
+          <div className="train__actions">
+            <button className="btn" onClick={() => step(-1)}>
+              <Icon name="back" size={16} /> Previous <Kbd>←</Kbd>
+            </button>
+            <button className="btn" onClick={() => step(1)}>
+              Next <Kbd>→</Kbd>
+            </button>
+          </div>
+        </>
+      ) : null}
+      <p className="faint train__fine">
+        These {total ? '' : '600 '}comparisons were generated, not made by a person: each pick is a noisy draw from a preference function we wrote on purpose to favour people with roots. The people are generated too, and are not in the pool the funnel runs on. Every one of the 600 can be paged through here.
+      </p>
+    </section>
+  );
+}
+
 function Axis({ f }: { f: FeatureWeight }) {
-  const x = (v: number) => `${50 + Math.max(-1, Math.min(1, v)) * 50}%`;
-  const contradicts = Math.sign(f.stated) !== Math.sign(f.learned) && Math.abs(f.stated) > 0.3 && Math.abs(f.learned) > 0.15;
-  const hidden = Math.abs(f.stated) < 0.15 && Math.abs(f.learned) > 0.3;
+  const x = (v: number) => `${50 + Math.max(-1, Math.min(1, v / 0.8)) * 50}%`;
+  const stable = f.lo > 0 || f.hi < 0;
+  const contradicts = f.said !== null && stable && Math.sign(f.weight) !== f.said;
+  const unsaid = f.said === null && stable;
   return (
     <li className="axis">
       <div className="axis__label">
-        <span>{f.label}</span>
-        {contradicts ? <span className="chip chip--bad">contradicts</span> : hidden ? <span className="chip chip--accent">not stated</span> : null}
+        <span>{nice(f.key)}</span>
+        {f.said !== null ? <span className="chip">said: {f.said > 0 ? 'more' : 'less'}</span> : null}
+        {contradicts ? <span className="chip chip--bad">contradicts</span> : unsaid ? <span className="chip chip--accent">not stated</span> : null}
       </div>
-      <div className="axis__track" role="img" aria-label={`${f.label}: you stated ${f.stated.toFixed(2)}, your choices imply ${f.learned.toFixed(2)}`}>
+      <div
+        className="axis__track"
+        role="img"
+        aria-label={`${nice(f.key)}: learned weight ${f.weight.toFixed(2)}, 90 percent interval ${f.lo.toFixed(2)} to ${f.hi.toFixed(2)}; built in ${f.built.toFixed(2)}`}
+      >
         <i className="axis__zero" />
-        <i className="axis__ci" style={{ left: x(f.low), width: `calc(${x(f.high)} - ${x(f.low)})` }} />
-        <i className="axis__learned" style={{ left: x(f.learned) }} />
-        <i className="axis__stated" style={{ left: x(f.stated) }} />
+        <i className="axis__ci" style={{ left: x(f.lo), width: `calc(${x(f.hi)} - ${x(f.lo)})` }} />
+        {f.built !== 0 ? <i className="axis__built" style={{ left: x(f.built) }} /> : null}
+        <i className="axis__learned" style={{ left: x(f.weight) }} />
       </div>
+      <p className="mono faint axis__nums">
+        {f.weight >= 0 ? '+' : ''}
+        {f.weight.toFixed(2)} ({f.lo.toFixed(2)} to {f.hi.toFixed(2)}){f.built !== 0 ? ` · built in ${f.built >= 0 ? '+' : ''}${f.built.toFixed(2)}` : ''}
+      </p>
     </li>
   );
 }
 
-function Calibration({ bins }: { bins: ModelReport['calibration'] }) {
+function Calibration({ bins }: { bins: ModelReport['calibration']['bins'] }) {
   const S = 120;
   const pt = (v: number) => 8 + v * (S - 16);
   return (
-    <svg className="calib" viewBox={`0 0 ${S} ${S}`} role="img" aria-label="Calibration: predicted probability against how often you agreed">
+    <svg className="calib" viewBox={`0 0 ${S} ${S}`} role="img" aria-label="Calibration: predicted probability against how often the first person was picked">
       <rect x="8" y="8" width={S - 16} height={S - 16} fill="none" stroke="var(--line)" />
       <line x1={pt(0)} y1={S - pt(0)} x2={pt(1)} y2={S - pt(1)} stroke="var(--line-strong)" strokeDasharray="3 3" />
       <polyline fill="none" stroke="var(--info)" strokeWidth="1.5" points={bins.map((b) => `${pt(b.predicted)},${S - pt(b.observed)}`).join(' ')} />
       {bins.map((b) => (
-        <circle key={b.predicted} cx={pt(b.predicted)} cy={S - pt(b.observed)} r={2 + Math.min(3, b.n / 8)} fill="var(--info)" />
+        <circle key={b.predicted} cx={pt(b.predicted)} cy={S - pt(b.observed)} r={3} fill="var(--info)" />
       ))}
     </svg>
   );
 }
 
-function ModelPanel({ report, source }: { report: ModelReport; source: Source }) {
-  const h = report.heldOut;
-  const gap = h ? h.learned - h.stated : 0;
+function Scorers({ r }: { r: ModelReport }) {
+  const top = r.scorers.find((s) => s.key === 'oracle')!.accuracy.mean;
   return (
-    <aside className="model" aria-label="What the model has learned">
+    <div className="scorers" role="table" aria-label="Held-out results">
+      <div className="scorers__head" role="row">
+        <span role="columnheader">Scorer</span>
+        <span role="columnheader">Picks the same person as the label</span>
+        <span role="columnheader">Rank correlation</span>
+      </div>
+      {r.scorers.map((s) => (
+        <div key={s.key} className={`scorers__row scorers__row--${s.key}`} role="row">
+          <span role="cell" className="scorers__name">
+            {s.name}
+          </span>
+          <span role="cell" className="scorers__acc">
+            <span className="scorers__bar" aria-hidden="true">
+              <i style={{ width: `${s.accuracy.mean * 100}%` }} />
+              <b style={{ left: '50%' }} />
+              {s.key !== 'oracle' ? <u style={{ left: `${top * 100}%` }} /> : null}
+            </span>
+            <span className="mono">
+              {pct(s.accuracy.mean, 1)} <small className="faint">({range(s.accuracy)})</small>
+            </span>
+          </span>
+          <span role="cell" className="mono">
+            {s.correlation.mean >= 0 ? '+' : ''}
+            {s.correlation.mean.toFixed(3)}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ModelPanel({ r }: { r: ModelReport }) {
+  const learned = r.scorers.find((s) => s.key === 'learned')!;
+  const stated = r.scorers.find((s) => s.key === 'stated')!;
+  const mobility = r.scorers.find((s) => s.key === 'mobility')!;
+  const oracle = r.scorers.find((s) => s.key === 'oracle')!;
+  const clear = r.features.filter((f) => f.lo > 0 || f.hi < 0 || f.said !== null).sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight));
+  const rest = r.features.filter((f) => !clear.includes(f)).sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight));
+  return (
+    <aside className="model" aria-label="What the model learned from Eric's comparisons">
       <header className="model__head">
         <div>
-          <p className="eyebrow">What it has learned</p>
+          <p className="eyebrow">What it learned · held out · all synthetic</p>
           <h2 className="serif">Stated against revealed.</h2>
         </div>
-        <SourceBadge source={source} what="The scoring service is not merged yet. This panel is generated locally and moves as you add labels." />
       </header>
 
-      {report.finding ? (
-        <section className="finding">
-          <h3 className="serif">{report.finding.title}</h3>
-          <p>{report.finding.evidence}</p>
-          <p className="faint finding__hint">You can disagree with this. That is the point of showing the evidence.</p>
-        </section>
-      ) : (
-        <section className="finding finding--wait">
-          <h3 className="serif">Not enough labels to say anything yet.</h3>
-          <p>The model reports nothing until it has at least 40 judgments, so it cannot guess at you.</p>
-        </section>
-      )}
+      <section className="finding">
+        <h3 className="serif">{r.finding.title}</h3>
+        <p>{r.finding.evidence}</p>
+        <p className="faint finding__hint">You can disagree with this. That is the point of showing the evidence.</p>
+      </section>
+
+      <section className="held">
+        <p className="eyebrow">Held-out test · {r.setup.trials} random splits</p>
+        <div className="held__nums">
+          <div>
+            <span className="serif">{pct(learned.accuracy.mean, 1)}</span>
+            <span className="faint">learned model</span>
+          </div>
+          <div>
+            <span className="serif dim">{pct(stated.accuracy.mean, 1)}</span>
+            <span className="faint">stated-preference baseline</span>
+          </div>
+        </div>
+        <p className="dim">
+          Beats the baseline by {(r.gain.mean * 100).toFixed(0)} points ({(r.gain.lo * 100).toFixed(0)} to {(r.gain.hi * 100).toFixed(0)}), and wins {r.gain.wins} of {r.gain.of} splits. Each split trains on {r.setup.trainLabels} comparisons and tests on {r.setup.testLabels} between people it never saw. The most any model could score is {pct(oracle.accuracy.mean, 1)}, because the labels are noisy.
+        </p>
+        <Scorers r={r} />
+        <p className="faint model__fine">
+          The literal reading of Eric's pitch, ranking by how mobile and unanchored someone is, scores {pct(mobility.accuracy.mean, 1)}, far below the 50% of a coin flip, with a rank correlation of {mobility.correlation.mean.toFixed(3)}. That is the divergence as a number: ranking by what he says puts the people he picks near the bottom. Chance is 50%. The marked line is the ceiling.
+        </p>
+      </section>
+
+      <section className="caveat" aria-label="How much weight this deserves">
+        <p className="eyebrow">How much weight this deserves</p>
+        <ul>
+          <li>The labels come from a function we wrote, and the model is a linear utility over named features, the same shape. That is partly why it wins. A second test with a function the model cannot represent exactly gives {pct(r.stress.learnedAccuracy.mean, 1)} against {pct(r.stress.statedAccuracy.mean, 1)}.</li>
+          <li>The visual features are the least reliable part. The library has {r.portraits.library} portraits and the calibration pool draws on only {r.portraits.inCalibrationPool} of them, so each visual weight rests on very few distinct images. A nature setting and a craft activity never appear, so they get zero weight.</li>
+          <li>Eric is fictional. None of this shows the method works on a real person's choices.</li>
+        </ul>
+      </section>
 
       <section>
         <div className="model__sub">
-          <p className="eyebrow">Weight in your choices</p>
+          <p className="eyebrow">Weight in his choices</p>
           <ul className="legend" aria-hidden="true">
             <li>
-              <i className="lg lg--stated" /> you said
+              <i className="lg lg--built" /> built in
             </li>
             <li>
-              <i className="lg lg--learned" /> you chose
+              <i className="lg lg--learned" /> learned
             </li>
           </ul>
         </div>
         <div className="axis__scale" aria-hidden="true">
-          <span>avoid</span>
-          <span>prefer</span>
+          <span>avoids</span>
+          <span>prefers</span>
         </div>
         <ul className="axes">
-          {report.features.map((f) => (
+          {clear.map((f) => (
             <Axis key={f.key} f={f} />
           ))}
         </ul>
-        <p className="faint model__fine">Bars are the interval the labels can support. It narrows as you label more.</p>
+        <details className="model__more">
+          <summary className="faint">{rest.length} features with no clear effect</summary>
+          <ul className="axes">
+            {rest.map((f) => (
+              <Axis key={f.key} f={f} />
+            ))}
+          </ul>
+        </details>
+        <p className="faint model__fine">
+          Logits per standard deviation of the feature, with a 90% interval from resampling people. It recovered the sign of {r.recovery.signsRight} of {r.recovery.signsOf} features the labels really use (cosine {r.recovery.cosine.toFixed(3)} with the true weights) and reported {r.recovery.spurious} that has none.
+        </p>
       </section>
 
       <section className="held">
-        <p className="eyebrow">Held-out test</p>
-        {h ? (
-          <>
-            <div className="held__nums">
-              <div>
-                <span className="serif">{pct(h.learned)}</span>
-                <span className="faint">learned model</span>
-              </div>
-              <div>
-                <span className="serif dim">{pct(h.stated)}</span>
-                <span className="faint">stated-preference baseline</span>
-              </div>
-            </div>
-            <p className="dim">
-              {gap > 0.005
-                ? `Beats the baseline by ${(gap * 100).toFixed(0)} points on ${h.n} comparisons it never saw.`
-                : 'Does not beat the stated-preference baseline yet. That is reported as it is.'}
-            </p>
-          </>
-        ) : (
-          <p className="faint">Needs 40 labels before there is anything held out to test on.</p>
-        )}
+        <p className="eyebrow">Does "70% sure" mean 70%?</p>
         <div className="held__calib">
-          <Calibration bins={report.calibration} />
+          <Calibration bins={r.calibration.bins} />
           <p className="faint">
-            Calibration. When it says 70 percent, you agree about 70 percent of the time if the line follows the diagonal.
+            Held-out comparisons pooled over all splits, by predicted probability. On the diagonal is calibrated; expected calibration error {r.calibration.ece.toFixed(3)}.
           </p>
         </div>
       </section>
 
       <section>
-        <p className="eyebrow">Where it disagrees with you</p>
+        <p className="eyebrow">Where it was confident and wrong</p>
+        <p className="faint model__fine">
+          Of {r.confident.n} held-out comparisons where it was about 88% sure or more, {r.confident.wrong} went the other way. Some are noise the model cannot tell from signal.
+        </p>
         <ul className="disagree">
-          {report.disagreements.map((d) => (
-            <li key={d.person.id}>
-              <Photo photoRef={d.person.photoRef} name={d.person.displayName} className="disagree__photo" />
+          {r.misses.slice(0, 3).map((m) => (
+            <li key={m.preferred.id + m.picked.id}>
               <div>
                 <p>
-                  <b>{d.person.displayName}</b>
-                  <span className="mono faint">
-                    {' '}
-                    you #{d.statedRank} → model #{d.learnedRank}
-                  </span>
+                  Expected <b>{m.preferred.name}</b> <span className="dim">({m.preferred.job}, {plural(m.preferred.yearsInCity, 'year')} in {m.preferred.city}, {plural(m.preferred.nightsAwayPerMonth, 'night')} away a month)</span>
                 </p>
-                <p className="dim">{d.because}</p>
+                <p className="dim">
+                  The label picked <b>{m.picked.name}</b> ({m.picked.job}, {plural(m.picked.yearsInCity, 'year')} in {m.picked.city}, {plural(m.picked.nightsAwayPerMonth, 'night')} away a month).
+                </p>
               </div>
             </li>
           ))}
         </ul>
       </section>
 
-      <p className="faint model__fine">{report.note}</p>
+      <p className="faint model__fine">
+        Generated by <span className="mono">npm run calibrate</span> from a pool of {r.setup.pool.generated.toLocaleString('en')} generated profiles, {r.setup.pool.eligible} of which pass Eric's hard rules. The same numbers are in <span className="mono">data/calibration/EVAL.md</span>.
+      </p>
     </aside>
   );
 }
 
 export default function Training() {
-  const [mode, setMode] = useState<Mode>('pair');
-  const [summary, setSummary] = useState<LabelSummary>(() => labelSummary());
-  const [source, setSource] = useState<Source>('fixture');
-  const [say, setSay] = useState('');
-  const [shown, setShown] = useState(0);
-
-  const pool = useResource(() => loadPool().catch(() => []));
-  const batch = useResource(
-    async () => {
-      const people = pool.data ?? [];
-      const r = await fromSeam<TrainingItem[]>(`${ENDPOINTS.trainingNext}?mode=${mode}&n=40`, () => fixtureTrainingItems(people, mode, 40));
-      setSource(r.source);
-      return r.data;
-    },
-    [mode, pool.data?.length],
-  );
-  const report = useResource(
-    async () => {
-      const people = (pool.data ?? []).slice(0, 4).map((c) => ({ id: c.id, displayName: c.displayName, age: c.declared.age, city: c.declared.city, photoRef: c.photos[0]?.photoRef ?? null }));
-      return fromSeam<ModelReport>(ENDPOINTS.modelReport, () => fixtureModelReport(summary.count, people));
-    },
-    [summary.count, pool.data?.length],
-  );
-
-  const items = batch.data ?? [];
-  const item = items[shown];
-
-  useEffect(() => setShown(0), [mode]);
-  // Ran out of the fetched batch: fetch the next one.
-  useEffect(() => {
-    if (batch.data && shown >= batch.data.length && !batch.loading) {
-      setShown(0);
-      batch.reload();
-    }
-  }, [shown, batch.data, batch.loading, batch.reload]);
-
-  const submit = useCallback(
-    async (l: Label, word: string) => {
-      const r = await postSeam<LabelSummary>(ENDPOINTS.trainingLabels, l, () => writeLabel(l));
-      setSummary(r.data);
-      setShown((i) => i + 1);
-      setSay(`${word}. ${r.data.count} labels.`);
-    },
-    [],
-  );
-
-  const choose = useCallback(
-    (choice: 'a' | 'b' | 'neither') => {
-      if (item?.kind !== 'pair') return;
-      void submit({ itemId: item.id, kind: 'pair', choice, at: new Date().toISOString() }, choice === 'neither' ? 'Skipped' : `Chose ${choice === 'a' ? item.a.displayName : item.b.displayName}`);
-    },
-    [item, submit],
-  );
-  const rate = useCallback(
-    (rating: 1 | 2 | 3 | 4 | 5) => {
-      if (item?.kind !== 'rating') return;
-      void submit({ itemId: item.id, kind: 'rating', rating, at: new Date().toISOString() }, `Rated ${item.person.displayName} ${rating}`);
-    },
-    [item, submit],
-  );
-  const undo = useCallback(() => {
-    if (shown === 0) return;
-    setSummary(undoLabel());
-    setShown((i) => i - 1);
-    setSay('Last label undone.');
-  }, [shown]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
-      if ((e.target as HTMLElement).closest('input, textarea, select')) return;
-      if (mode === 'pair') {
-        if (e.key === 'ArrowLeft' || e.key === 'a') choose('a');
-        else if (e.key === 'ArrowRight' || e.key === 'b') choose('b');
-        else if (e.key === 'ArrowDown' || e.key === 'n') choose('neither');
-      } else if (/^[1-5]$/.test(e.key)) rate(Number(e.key) as 1 | 2 | 3 | 4 | 5);
-      if (e.key === 'z') undo();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [mode, choose, rate, undo]);
-
+  const report = useResource(() => agentGet<ModelReport>(ENDPOINTS.modelReport));
   return (
     <>
       <PageHeader
         eyebrow="Calibration · preference learning"
         title={
           <>
-            Teach it <em>your taste.</em>
+            What Eric said, <em>and what he picked.</em>
           </>
         }
-        lede="Each comparison is one label. The model fits your choices, then shows you where they differ from what you wrote down. Your stated profile is an input; what you pick is the finding."
-        right={
-          <div className="seg" role="group" aria-label="Label style">
-            <button aria-pressed={mode === 'pair'} onClick={() => setMode('pair')}>
-              Pairwise
-            </button>
-            <button aria-pressed={mode === 'rating'} onClick={() => setMode('rating')}>
-              Rate
-            </button>
-          </div>
-        }
+        lede="A small model was fitted to 600 of Eric's comparisons and nothing else. Then it was tested on people it had never seen, against a stated-preference baseline and against the literal reading of what he asked for. Stated preference is an input; the choices are the finding."
       />
-      <p className="sr-only" role="status" aria-live="polite">
-        {say}
-      </p>
-
       <div className="train">
-        <section className="train__label" aria-label="Labelling">
-          <div className="train__top">
-            <Progress s={summary} />
-            <SourceBadge source={source} what="Training items come from the scoring service when it is merged. Until then they are drawn from the live pool and labels stay in this browser." />
-          </div>
-
-          {batch.error ? <ErrorBox error={batch.error} retry={batch.reload} /> : null}
-          {batch.loading && !batch.data ? <Loading /> : null}
-
-          {item?.kind === 'pair' ? (
-            <>
-              <p className="train__q serif">Who would you rather meet?</p>
-              <div className="pair" key={item.id}>
-                <PersonCard p={item.a} cue="←" onPick={() => choose('a')} />
-                <PersonCard p={item.b} cue="→" onPick={() => choose('b')} />
-              </div>
-              <div className="train__actions">
-                <button className="btn" onClick={() => choose('neither')}>
-                  Can't choose <Kbd>↓</Kbd>
-                </button>
-                <button className="btn btn--ghost" onClick={undo} disabled={shown === 0}>
-                  <Icon name="undo" size={16} /> Undo <Kbd>Z</Kbd>
-                </button>
-              </div>
-            </>
-          ) : null}
-
-          {item?.kind === 'rating' ? (
-            <>
-              <p className="train__q serif">How much would you want to meet this person?</p>
-              <div className="rate" key={item.id}>
-                <PersonCard p={item.person} />
-                <div className="rate__scale" role="group" aria-label="Rating, 1 to 5">
-                  {([1, 2, 3, 4, 5] as const).map((n) => (
-                    <button key={n} onClick={() => rate(n)} aria-label={`${n} of 5`}>
-                      <span className="serif">{n}</span>
-                      <Kbd>{String(n)}</Kbd>
-                    </button>
-                  ))}
-                </div>
-                <div className="rate__ends faint">
-                  <span>Not at all</span>
-                  <span>Very much</span>
-                </div>
-              </div>
-              <div className="train__actions">
-                <button className="btn btn--ghost" onClick={undo} disabled={shown === 0}>
-                  <Icon name="undo" size={16} /> Undo <Kbd>Z</Kbd>
-                </button>
-              </div>
-            </>
-          ) : null}
-          <p className="faint train__fine">
-            Everyone here is generated. The labels are stored in this browser until the scoring service takes them.
-          </p>
-        </section>
-
-        {report.data ? <ModelPanel report={report.data.data} source={report.data.source} /> : report.error ? <ErrorBox error={report.error} /> : <Loading />}
+        <Comparisons />
+        {report.data ? <ModelPanel r={report.data} /> : report.error ? <ErrorBox error={report.error} retry={report.reload} /> : <Loading />}
       </div>
     </>
   );

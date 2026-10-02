@@ -4,7 +4,8 @@ import type { WhyReport } from '../src/agent/reversal.ts';
 import { call, makeSys } from './helpers.ts';
 
 async function ran() {
-  const sys = makeSys();
+  // Eric's rules leave 5 of the default 500, too few to see a rank cutoff; use the larger pool.
+  const sys = makeSys({ seed: { size: 4000 } });
   await sys.funnel.run();
   return sys;
 }

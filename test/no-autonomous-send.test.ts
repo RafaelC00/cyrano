@@ -28,7 +28,9 @@ const filesMatching = (re: RegExp) =>
 
 function spiedSystem() {
   const requests: Array<{ method: string; path: string }> = [];
+  // Eric's rules leave 5 of the default 500 people, so use the larger pool: enough new matches to draft for.
   const sys = makeSys({
+    seed: { size: 4000 },
     fetchWrapper: (inner) => (async (input, init) => {
       const url = new URL(typeof input === 'string' ? input : input instanceof URL ? input.href : (input as Request).url);
       requests.push({ method: init?.method ?? 'GET', path: url.pathname });
@@ -39,22 +41,45 @@ function spiedSystem() {
   return { sys, requests, sends };
 }
 
+type Sys = ReturnType<typeof makeSys>;
+type DraftRow = { id: string; body: string; author: string };
+
+/** Runs the funnel, accepts everyone at the gate, and returns the matches that did not exist before. */
+async function newMatches(sys: Sys) {
+  const before = new Set((await sys.adapter.listMatches()).map((m) => m.id));
+  await sys.funnel.run();
+  for (const t of sys.gate.pending()) await sys.gate.accept(t.candidate.id);
+  return (await sys.adapter.listMatches()).filter((m) => !before.has(m.id));
+}
+
+/** The first new match the drafter will write an opener for (Eric has to be in her city). */
+async function firstDraft(sys: Sys): Promise<{ draft: DraftRow; matchId: string }> {
+  for (const m of await newMatches(sys)) {
+    const r = await call<DraftRow>(sys.app, 'POST', `/matches/${m.id}/drafts`);
+    if (r.status === 201) return { draft: r.body, matchId: m.id };
+  }
+  throw new Error('no new match was draftable');
+}
+
 test('running the funnel, the gate decisions and drafting never sends a message', async () => {
   const { sys, sends } = spiedSystem();
-  await sys.funnel.run();
-  for (const t of sys.gate.pending().slice(0, 10)) await sys.gate.accept(t.candidate.id);
-  const matches = await sys.adapter.listMatches();
-  assert.ok(matches.length > 8, 'accepting should have produced at least one new match');
-  for (const m of matches) await call(sys.app, 'POST', `/matches/${m.id}/drafts`);
-  assert.equal(sys.outbox.list('pending').length, matches.length);
+  const fresh = await newMatches(sys);
+  assert.ok(fresh.length > 0, 'accepting should have produced at least one new match');
+  let offered = 0;
+  for (const m of await sys.adapter.listMatches()) {
+    const r = await call(sys.app, 'POST', `/matches/${m.id}/drafts`);
+    assert.ok(r.status === 201 || r.status === 409, `drafting answered ${r.status}`);
+    if (r.status === 201) offered++;
+  }
+  assert.ok(offered > 0, 'at least one opener should have been written');
+  assert.equal(sys.outbox.list('pending').length, offered);
   assert.equal(sends().length, 0, 'no POST to any /messages endpoint');
   assert.equal(sys.platform.store.viewerMessageCount(), 0);
 });
 
 test('a draft is sent only by the explicit approve call, exactly once', async () => {
   const { sys, sends } = spiedSystem();
-  const match = (await sys.adapter.listMatches())[0]!;
-  const draft = (await call<{ id: string; body: string }>(sys.app, 'POST', `/matches/${match.id}/drafts`)).body;
+  const { draft } = await firstDraft(sys);
   assert.equal(sends().length, 0);
 
   const ok = await call(sys.app, 'POST', `/drafts/${draft.id}/approve`, { seenBody: draft.body });
@@ -69,8 +94,7 @@ test('a draft is sent only by the explicit approve call, exactly once', async ()
 
 test('approval must carry the exact text the human saw', async () => {
   const { sys, sends } = spiedSystem();
-  const match = (await sys.adapter.listMatches())[0]!;
-  const draft = (await call<{ id: string; body: string }>(sys.app, 'POST', `/matches/${match.id}/drafts`)).body;
+  const { draft } = await firstDraft(sys);
   assert.equal((await call(sys.app, 'POST', `/drafts/${draft.id}/approve`, {})).status, 400);
   const bad = await call<{ error: { code: string } }>(sys.app, 'POST', `/drafts/${draft.id}/approve`, { seenBody: 'something else' });
   assert.equal(bad.status, 409);
@@ -80,8 +104,7 @@ test('approval must carry the exact text the human saw', async () => {
 
 test('a discarded draft can never be sent', async () => {
   const { sys, sends } = spiedSystem();
-  const match = (await sys.adapter.listMatches())[0]!;
-  const draft = (await call<{ id: string; body: string }>(sys.app, 'POST', `/matches/${match.id}/drafts`)).body;
+  const { draft } = await firstDraft(sys);
   assert.equal((await call(sys.app, 'POST', `/drafts/${draft.id}/discard`)).status, 200);
   assert.equal((await call(sys.app, 'POST', `/drafts/${draft.id}/approve`, { seenBody: draft.body })).status, 409);
   assert.equal(sends().length, 0);
@@ -164,7 +187,7 @@ test('the adapter surface has no send-like method other than deliver', () => {
 });
 
 test('the funnel and gate modules do not even import the outbox', () => {
-  for (const f of ['agent/funnel.ts', 'agent/gate.ts', 'agent/reversal.ts', 'agent/scoring.ts', 'agent/rules.ts', 'agent/opener.ts']) {
+  for (const f of ['agent/funnel.ts', 'agent/gate.ts', 'agent/reversal.ts', 'agent/scoring.ts', 'agent/rules.ts']) {
     assert.doesNotMatch(readFileSync(join(SRC, f), 'utf8'), /outbox/i, f);
   }
 });

@@ -8,6 +8,7 @@ import type {
   Hold,
   HoldRequest,
   Slot,
+  SlotAtRequest,
   SlotRequest,
   TimeRange,
 } from './types.ts';
@@ -95,6 +96,11 @@ export class RealCalendar implements CalendarAdapter {
 
   /** Itinerary and rhythm come from this system; busy time comes from `listBusy`. */
   proposeSlots(_req: SlotRequest): Promise<Slot[]> {
+    return unreachable();
+  }
+
+  /** Same rules as a proposal (presence, sleep, lead time), applied to a time somebody chose. */
+  slotAt(_req: SlotAtRequest): Promise<Slot> {
     return unreachable();
   }
 

@@ -50,6 +50,16 @@ export interface HoldRequest {
   candidateId?: string;
   /** Default 48. A hold that is not confirmed by then stops blocking the slot. */
   ttlHours?: number;
+  /** A hold or confirmed event this one takes the place of: ignored for clashes, removed once this one is placed. */
+  replaces?: string;
+}
+
+/** A slot at a time somebody chose, rather than one proposed. Checked the same way. */
+export interface SlotAtRequest {
+  city: string;
+  /** Wall clock in `city`: `2026-10-15T20:00`. */
+  localStart: string;
+  kind: SlotKind;
 }
 
 export interface Hold {
@@ -116,6 +126,8 @@ export interface CalendarAdapter {
   listBusy(range: TimeRange): Promise<BusyBlock[]>;
   /** Free slots, only on days Eric is in `req.city`, never while he sleeps, never on a clash. */
   proposeSlots(req: SlotRequest): Promise<Slot[]>;
+  /** Builds the slot at a chosen local time, or refuses: wrong city that day, asleep, in the past. */
+  slotAt(req: SlotAtRequest): Promise<Slot>;
   /** Reserves a slot so nothing else is offered into it. Expires unless confirmed. */
   hold(req: HoldRequest): Promise<Hold>;
   /** Turns a live hold into a confirmed event. */

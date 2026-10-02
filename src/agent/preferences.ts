@@ -24,22 +24,34 @@ export interface Preferences {
   gateSize: number;
 }
 
-export function defaultPreferences(): Preferences {
+/**
+ * Eric Vossberg's stated preferences: the fictional user this project is written around, taken
+ * from his persona. Each hard constraint maps to a self-declared profile field.
+ *
+ *   man, interested in women, 34; age 26 to 34; English, or German, Spanish or Dutch;
+ *   his current city or one he will be in within six weeks (Amsterdam, Lisbon, Berlin and
+ *   Madrid on his itinerary; the pool has no Singapore or Dubai); something ongoing; no smoking;
+ *   not wanting children within two years.
+ */
+export function ericPreferences(): Preferences {
   return {
     viewer: {
-      age: 33,
-      gender: 'woman',
-      interestedIn: ['man'],
-      languages: ['en', 'es'],
-      interests: ['cooking', 'hiking', 'film', 'board games', 'bookshops', 'climbing', 'travel', 'coffee'],
+      age: 34,
+      gender: 'man',
+      interestedIn: ['woman'],
+      languages: ['en', 'de', 'es', 'nl'],
+      interests: ['travel', 'running', 'coffee', 'chess', 'language learning', 'jazz', 'podcasts', 'museums'],
       intents: ['long-term', 'open'],
     },
-    ageRange: { min: 28, max: 40 },
-    cities: ['Lisbon', 'Porto', 'Madrid', 'Barcelona'],
+    ageRange: { min: 26, max: 34 },
+    cities: ['Amsterdam', 'Lisbon', 'Berlin', 'Madrid'],
     requireSharedLanguage: true,
-    excludedSmoking: ['regularly'],
-    excludedChildren: ['dont-want'],
+    excludedSmoking: ['sometimes', 'regularly'],
+    excludedChildren: ['want'],
     dormantAfterDays: 30,
     gateSize: 10,
   };
 }
+
+/** The viewer is Eric. There is no other user. */
+export const defaultPreferences = ericPreferences;

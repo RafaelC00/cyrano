@@ -1,0 +1,635 @@
+{
+ "synthetic": true,
+ "setup": {
+  "trials": 30,
+  "trainLabels": 600,
+  "testLabels": 300,
+  "pool": {
+   "generated": 10000,
+   "eligible": 439
+  },
+  "lapseRate": 0.05,
+  "idiosyncrasySd": 0.6,
+  "headline": {
+   "seed": 1,
+   "trainPeople": 307,
+   "testPeople": 132
+  }
+ },
+ "scorers": [
+  {
+   "key": "learned",
+   "name": "learned (pairwise logistic)",
+   "accuracy": {
+    "mean": 0.7843888888888887,
+    "lo": 0.7761300243942023,
+    "hi": 0.7926477533835751
+   },
+   "correlation": {
+    "mean": 0.9250338524969884,
+    "lo": 0.9203011844647453,
+    "hi": 0.9297665205292316
+   },
+   "top10": {
+    "mean": 0.6897435897435901,
+    "lo": 0.6578355796353005,
+    "hi": 0.7216515998518797
+   }
+  },
+  {
+   "key": "stated",
+   "name": "stated-preference-v1",
+   "accuracy": {
+    "mean": 0.5061666666666667,
+    "lo": 0.4914496547989614,
+    "hi": 0.5208836785343719
+   },
+   "correlation": {
+    "mean": 0.012384723191616041,
+    "lo": -0.015387454326933126,
+    "hi": 0.04015690071016521
+   },
+   "top10": {
+    "mean": 0.08205128205128207,
+    "lo": 0.05814872381032668,
+    "hi": 0.10595384029223745
+   }
+  },
+  {
+   "key": "mobility",
+   "name": "stated-mobility-v1",
+   "accuracy": {
+    "mean": 0.24683333333333335,
+    "lo": 0.23872303283324164,
+    "hi": 0.25494363383342505
+   },
+   "correlation": {
+    "mean": -0.8520024486366069,
+    "lo": -0.8586342798600068,
+    "hi": -0.845370617413207
+   },
+   "top10": {
+    "mean": 0,
+    "lo": 0,
+    "hi": 0
+   }
+  },
+  {
+   "key": "oracle",
+   "name": "the latent function itself",
+   "accuracy": {
+    "mean": 0.8141111111111111,
+    "lo": 0.8073512848244275,
+    "hi": 0.8208709373977947
+   },
+   "correlation": {
+    "mean": 1,
+    "lo": 1,
+    "hi": 1
+   },
+   "top10": {
+    "mean": 1,
+    "lo": 1,
+    "hi": 1
+   }
+  }
+ ],
+ "gain": {
+  "mean": 0.27822222222222226,
+  "lo": 0.2600706900728431,
+  "hi": 0.2963737543716014,
+  "wins": 30,
+  "of": 30
+ },
+ "stress": {
+  "learnedAccuracy": {
+   "mean": 0.791,
+   "lo": 0.7843078910005297,
+   "hi": 0.7976921089994704
+  },
+  "statedAccuracy": {
+   "mean": 0.4995,
+   "lo": 0.48654916570979845,
+   "hi": 0.5124508342902016
+  },
+  "oracleAccuracy": {
+   "mean": 0.8313333333333333,
+   "lo": 0.8255437258739415,
+   "hi": 0.837122940792725
+  }
+ },
+ "finding": {
+  "title": "He asked for someone unanchored. He keeps picking people with roots.",
+  "evidence": "In the 200 comparisons where one person fitted \"mobile and unanchored\" clearly better than the other, he picked the better fit 8% of the time (16 of 200; 95% interval 5% to 13%). Chance is 50%. The labels were generated from a function written to do exactly this, so the finding checks the method; it says nothing about a real person."
+ },
+ "features": [
+  {
+   "key": "interest_overlap",
+   "group": "declared",
+   "said": null,
+   "weight": 0.10401881803230335,
+   "lo": -0.04989795479588481,
+   "hi": 0.27318092249935094,
+   "built": 0.1558010369823494,
+   "verdict": "no-signal",
+   "phrase": "shares many of his interests"
+  },
+  {
+   "key": "intent_match",
+   "group": "declared",
+   "said": null,
+   "weight": -0.09498424520324929,
+   "lo": -0.26511698223320956,
+   "hi": 0.07368580357346086,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "wants a different kind of relationship"
+  },
+  {
+   "key": "shared_languages",
+   "group": "declared",
+   "said": null,
+   "weight": -0.025185352162963345,
+   "lo": -0.2235639993317613,
+   "hi": 0.14972091111102503,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "shares fewer of his languages"
+  },
+  {
+   "key": "age_fit",
+   "group": "declared",
+   "said": null,
+   "weight": 0.06995657980287634,
+   "lo": -0.12856447979155108,
+   "hi": 0.2595768012929133,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is close to his own age"
+  },
+  {
+   "key": "in_his_cities",
+   "group": "declared",
+   "said": null,
+   "weight": 0.030553802712691727,
+   "lo": -0.1354461690678376,
+   "hi": 0.17536576690664604,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "lives in one of his cities"
+  },
+  {
+   "key": "recently_active",
+   "group": "declared",
+   "said": null,
+   "weight": -0.041512720669277386,
+   "lo": -0.22251803988273086,
+   "hi": 0.13924343791911065,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is rarely active on the app"
+  },
+  {
+   "key": "years_in_city",
+   "group": "life",
+   "said": -1,
+   "weight": 0.3322674844183859,
+   "lo": 0.14665355857074522,
+   "hi": 0.5565907661113431,
+   "built": 0.6162992757923647,
+   "verdict": "contradicts",
+   "phrase": "has lived in their city for years"
+  },
+  {
+   "key": "job_tenure_years",
+   "group": "life",
+   "said": -1,
+   "weight": 0.10381209740893789,
+   "lo": -0.07195147198079573,
+   "hi": 0.32162805864413413,
+   "built": 0.3306950966594393,
+   "verdict": "not-detected",
+   "phrase": "has stayed in the same work for years"
+  },
+  {
+   "key": "physical_practice",
+   "group": "life",
+   "said": null,
+   "weight": 0.26632934263687924,
+   "lo": 0.08452256107188283,
+   "hi": 0.46589216768369435,
+   "built": 0.5006971883470135,
+   "verdict": "revealed-only",
+   "phrase": "runs or belongs to a practice with a physical place"
+  },
+  {
+   "key": "work_needs_a_place",
+   "group": "life",
+   "said": -1,
+   "weight": 0.44793341630566375,
+   "lo": 0.24924297568536552,
+   "hi": 0.6754437681172222,
+   "built": 0.5139924780012457,
+   "verdict": "contradicts",
+   "phrase": "does work that cannot be done from an airport lounge"
+  },
+  {
+   "key": "nights_away_per_month",
+   "group": "life",
+   "said": 1,
+   "weight": -0.29563683254031586,
+   "lo": -0.5096387935638642,
+   "hi": -0.10807182139862673,
+   "built": -0.5441608859220243,
+   "verdict": "contradicts",
+   "phrase": "is rarely away from home"
+  },
+  {
+   "key": "old_local_friendships",
+   "group": "life",
+   "said": -1,
+   "weight": 0.4041210469328045,
+   "lo": 0.21353360719688383,
+   "hi": 0.6219530952793645,
+   "built": 0.28662351010489434,
+   "verdict": "contradicts",
+   "phrase": "has long-standing local friendships"
+  },
+  {
+   "key": "photo_candid",
+   "group": "visual",
+   "said": null,
+   "weight": 0.11586981407997636,
+   "lo": -0.053767835066430576,
+   "hi": 0.29576429360618134,
+   "built": 0.19435214811028712,
+   "verdict": "no-signal",
+   "phrase": "has a candid main photo"
+  },
+  {
+   "key": "photo_posed",
+   "group": "visual",
+   "said": null,
+   "weight": -0.07107612630313709,
+   "lo": -0.22535354913629582,
+   "hi": 0.11506463271468323,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "does not have a posed main photo"
+  },
+  {
+   "key": "photo_group",
+   "group": "visual",
+   "said": null,
+   "weight": 0.02418430397575482,
+   "lo": -0.16605675072386816,
+   "hi": 0.2160221303146112,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is in a group in the main photo"
+  },
+  {
+   "key": "photo_nature",
+   "group": "visual",
+   "said": null,
+   "weight": 0,
+   "lo": 0,
+   "hi": 0,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is not photographed in nature"
+  },
+  {
+   "key": "photo_indoor",
+   "group": "visual",
+   "said": null,
+   "weight": 0.15122477070274812,
+   "lo": -0.035062904470113926,
+   "hi": 0.3191103302586606,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is photographed indoors"
+  },
+  {
+   "key": "photo_urban",
+   "group": "visual",
+   "said": null,
+   "weight": 0.16703893150229268,
+   "lo": 0.02425112317000535,
+   "hi": 0.3250575532070785,
+   "built": 0,
+   "verdict": "revealed-only",
+   "phrase": "is photographed in a city setting"
+  },
+  {
+   "key": "photo_doing_something_craft",
+   "group": "visual",
+   "said": null,
+   "weight": 0,
+   "lo": 0,
+   "hi": 0,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is not making something in the main photo"
+  },
+  {
+   "key": "photo_doing_sport",
+   "group": "visual",
+   "said": null,
+   "weight": 0.01061985157066775,
+   "lo": -0.22365018164555028,
+   "hi": 0.23713024397518292,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is exercising in the main photo"
+  },
+  {
+   "key": "photo_social_scene",
+   "group": "visual",
+   "said": null,
+   "weight": -0.13574624641581862,
+   "lo": -0.3397023350812437,
+   "hi": 0.040152651842321314,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "is not at a social scene in the main photo"
+  },
+  {
+   "key": "photo_well_lit",
+   "group": "visual",
+   "said": null,
+   "weight": 0.04788363574237259,
+   "lo": -0.12846200907703653,
+   "hi": 0.2191681942285447,
+   "built": 0.14576411108271534,
+   "verdict": "no-signal",
+   "phrase": "has a well lit main photo"
+  },
+  {
+   "key": "photo_sharp",
+   "group": "visual",
+   "said": null,
+   "weight": -0.06652701759463367,
+   "lo": -0.29093397587720593,
+   "hi": 0.11728495256727785,
+   "built": 0,
+   "verdict": "no-signal",
+   "phrase": "has a soft main photo"
+  }
+ ],
+ "recovery": {
+  "cosine": 0.8727629726463731,
+  "signsRight": 9,
+  "signsOf": 9,
+  "spurious": 1,
+  "top5Overlap": 4
+ },
+ "curve": [
+  {
+   "n": 25,
+   "learned": {
+    "mean": 0.7163333333333333,
+    "lo": 0.6990939580308836,
+    "hi": 0.7335727086357829
+   },
+   "baseline": {
+    "mean": 0.506,
+    "lo": 0.491242991634263,
+    "hi": 0.520757008365737
+   }
+  },
+  {
+   "n": 50,
+   "learned": {
+    "mean": 0.7446666666666667,
+    "lo": 0.733269988582899,
+    "hi": 0.7560633447504344
+   },
+   "baseline": {
+    "mean": 0.5040833333333332,
+    "lo": 0.4896864278219362,
+    "hi": 0.5184802388447303
+   }
+  },
+  {
+   "n": 100,
+   "learned": {
+    "mean": 0.7667499999999999,
+    "lo": 0.7571835265316897,
+    "hi": 0.7763164734683101
+   },
+   "baseline": {
+    "mean": 0.5105833333333333,
+    "lo": 0.4943098121466673,
+    "hi": 0.5268568545199992
+   }
+  },
+  {
+   "n": 200,
+   "learned": {
+    "mean": 0.7695833333333334,
+    "lo": 0.7569919384484846,
+    "hi": 0.7821747282181822
+   },
+   "baseline": {
+    "mean": 0.51025,
+    "lo": 0.49600447272409964,
+    "hi": 0.5244955272759003
+   }
+  },
+  {
+   "n": 400,
+   "learned": {
+    "mean": 0.7763333333333332,
+    "lo": 0.7630882185106271,
+    "hi": 0.7895784481560393
+   },
+   "baseline": {
+    "mean": 0.51275,
+    "lo": 0.4945862649878765,
+    "hi": 0.5309137350121236
+   }
+  },
+  {
+   "n": 600,
+   "learned": {
+    "mean": 0.7859166666666666,
+    "lo": 0.7756918242266103,
+    "hi": 0.7961415091067229
+   },
+   "baseline": {
+    "mean": 0.5200833333333332,
+    "lo": 0.507344270164899,
+    "hi": 0.5328223965017674
+   }
+  },
+  {
+   "n": 1000,
+   "learned": {
+    "mean": 0.78125,
+    "lo": 0.769,
+    "hi": 0.7935
+   },
+   "baseline": {
+    "mean": 0.5035833333333334,
+    "lo": 0.4903686248215034,
+    "hi": 0.5167980418451633
+   }
+  }
+ ],
+ "calibration": {
+  "ece": 0.006784091602876766,
+  "bins": [
+   {
+    "predicted": 0.09127525293742002,
+    "observed": 0.085955847815876,
+    "n": 2129
+   },
+   {
+    "predicted": 0.29538352660833195,
+    "observed": 0.2878598247809762,
+    "n": 1598
+   },
+   {
+    "predicted": 0.49817164451257107,
+    "observed": 0.5047683923705722,
+    "n": 1468
+   },
+   {
+    "predicted": 0.7027430136181917,
+    "observed": 0.7032051282051283,
+    "n": 1560
+   },
+   {
+    "predicted": 0.9067688147924978,
+    "observed": 0.9189309576837417,
+    "n": 2245
+   }
+  ]
+ },
+ "misses": [
+  {
+   "preferred": {
+    "id": "p_3211",
+    "name": "Hiliokom Quarryholt",
+    "age": 32,
+    "city": "Barcelona",
+    "job": "bookshop owner",
+    "yearsInCity": 16,
+    "nightsAwayPerMonth": 2,
+    "hasPractice": true
+   },
+   "picked": {
+    "id": "p_3376",
+    "name": "Hezaetil Glassholt",
+    "age": 31,
+    "city": "Berlin",
+    "job": "software contractor",
+    "yearsInCity": 0,
+    "nightsAwayPerMonth": 13,
+    "hasPractice": false
+   },
+   "margin": 4.070094180947646
+  },
+  {
+   "preferred": {
+    "id": "p_8785",
+    "name": "Kaeruzias Fenthorn",
+    "age": 31,
+    "city": "Lisbon",
+    "job": "veterinarian",
+    "yearsInCity": 4,
+    "nightsAwayPerMonth": 8,
+    "hasPractice": false
+   },
+   "picked": {
+    "id": "p_4279",
+    "name": "Ronibas Glassmere",
+    "age": 34,
+    "city": "Lisbon",
+    "job": "freelance translator",
+    "yearsInCity": 3,
+    "nightsAwayPerMonth": 27,
+    "hasPractice": false
+   },
+   "margin": 2.6516208309872087
+  },
+  {
+   "preferred": {
+    "id": "p_2025",
+    "name": "Hikiokaen Sedgeholt",
+    "age": 32,
+    "city": "Lisbon",
+    "job": "carpenter",
+    "yearsInCity": 12,
+    "nightsAwayPerMonth": 1,
+    "hasPractice": true
+   },
+   "picked": {
+    "id": "p_5210",
+    "name": "Hugaetia Sedgeholt",
+    "age": 29,
+    "city": "Madrid",
+    "job": "ceramicist with a studio",
+    "yearsInCity": 0,
+    "nightsAwayPerMonth": 3,
+    "hasPractice": false
+   },
+   "margin": 2.4703399379472235
+  },
+  {
+   "preferred": {
+    "id": "p_9282",
+    "name": "Laehaehas Sedgefield",
+    "age": 33,
+    "city": "Utrecht",
+    "job": "bookshop owner",
+    "yearsInCity": 8,
+    "nightsAwayPerMonth": 1,
+    "hasPractice": true
+   },
+   "picked": {
+    "id": "p_2639",
+    "name": "Vabaehin Sedgedale",
+    "age": 27,
+    "city": "Utrecht",
+    "job": "event producer",
+    "yearsInCity": 7,
+    "nightsAwayPerMonth": 3,
+    "hasPractice": false
+   },
+   "margin": 2.279072661253493
+  },
+  {
+   "preferred": {
+    "id": "p_6413",
+    "name": "Faesiode Cinderward",
+    "age": 28,
+    "city": "Madrid",
+    "job": "climbing gym coach",
+    "yearsInCity": 3,
+    "nightsAwayPerMonth": 0,
+    "hasPractice": true
+   },
+   "picked": {
+    "id": "p_7539",
+    "name": "Tuhofos Juniperfield",
+    "age": 29,
+    "city": "Paris",
+    "job": "travel writer",
+    "yearsInCity": 2,
+    "nightsAwayPerMonth": 10,
+    "hasPractice": false
+   },
+   "margin": 2.245752468652885
+  }
+ ],
+ "confident": {
+  "n": 2868,
+  "wrong": 166
+ },
+ "portraits": {
+  "library": 60,
+  "inCalibrationPool": 21
+ }
+}

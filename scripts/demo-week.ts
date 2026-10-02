@@ -11,7 +11,8 @@ import { Drafter } from '../src/drafting/drafter.ts';
 import { chooseLanguage, TemplateGenerator } from '../src/drafting/generator.ts';
 import type { DraftContext, DraftGenerator, GeneratedDraft } from '../src/drafting/types.ts';
 import { Scheduler } from '../src/schedule/scheduler.ts';
-import { ericItinerary, ericPreferences } from '../src/schedule/persona.ts';
+import { ericPreferences } from '../src/agent/preferences.ts';
+import { ericItinerary } from '../src/schedule/persona.ts';
 import { createSystem } from '../src/system.ts';
 
 /**
@@ -83,7 +84,8 @@ const bad: DraftGenerator = {
     return ok;
   },
 };
-const sample = all.find((x) => x.declared.city === 'Amsterdam' && chooseLanguage(x.declared.languages).language === 'en')!;
+// An English-first profile in a city he visits (the 500-person pool has none in Amsterdam).
+const sample = all.find((x) => visited.has(x.declared.city) && chooseLanguage(x.declared.languages).language === 'en') ?? all.find((x) => visited.has(x.declared.city))!;
 const retried = await new Drafter({ generator: bad }).compose(await ctxFor(sample));
 for (const a of retried.rejected) console.log(`  attempt ${a.attempt} REJECTED by "${a.rejection.rule}": ${a.rejection.reason}  [${a.rejection.excerpt}]`);
 if (retried.status === 'ready') console.log(`  attempt ${retried.rejected.length} passed: "${retried.draft.body}"`);

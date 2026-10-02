@@ -233,9 +233,13 @@ export const agent = {
     call<WhyReport>(AGENT, `/candidates/${id}/overturn`, post(note ? { note } : undefined)),
   matches: () => call<{ items: Match[] }>(AGENT, '/matches').then((r) => r.items),
   thread: (matchId: string) => call<{ items: ThreadMessage[] }>(AGENT, `/matches/${matchId}/thread`).then((r) => r.items),
-  /** Creates a DRAFT only. With no body the agent's drafter writes one; with a body it is human-authored. */
-  createDraft: (matchId: string, body?: string) =>
-    call<DraftRecord>(AGENT, `/matches/${matchId}/drafts`, post(body === undefined ? undefined : { body })),
+  /**
+   * Creates a DRAFT only. With a body it is human-authored. Without one the Drafter writes it
+   * (checked, in her language), or the agent answers 409 with the reason it will not. `variant`
+   * asks for a different text from the same inputs.
+   */
+  createDraft: (matchId: string, body?: string, variant?: number) =>
+    call<DraftRecord>(AGENT, `/matches/${matchId}/drafts`, post(body !== undefined ? { body } : variant !== undefined ? { variant } : undefined)),
   drafts: () => call<{ items: DraftRecord[] }>(AGENT, '/drafts').then((r) => r.items),
   discardDraft: (id: string) => call<DraftRecord>(AGENT, `/drafts/${id}/discard`, post()),
   /** The one call that puts text on the wire. Only ever invoked from the confirm step of the Drafts screen. */

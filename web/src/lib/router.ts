@@ -23,7 +23,7 @@ export const SCREENS: Array<{ id: ScreenId; label: string; blurb: string; group:
   { id: 'swipe', label: 'Swipe', blurb: 'Your gate', group: 'Decide' },
   { id: 'shortlist', label: 'Shortlist', blurb: 'Who made the cut', group: 'Decide' },
   { id: 'why', label: 'Why', blurb: 'Audit and overturn', group: 'Decide' },
-  { id: 'training', label: 'Training', blurb: 'Teach it your taste', group: 'Learn' },
+  { id: 'training', label: 'Training', blurb: 'What Eric picked', group: 'Learn' },
   { id: 'drafts', label: 'Drafts', blurb: 'The approval gate', group: 'Act' },
   { id: 'calendar', label: 'Calendar', blurb: 'Dates and where you are', group: 'Act' },
   { id: 'brief', label: 'Brief', blurb: 'The week in one page', group: 'Act' },

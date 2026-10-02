@@ -116,6 +116,35 @@ export class Scheduler {
     return event;
   }
 
+  /**
+   * Moves one slot of her plan to a time somebody chose. The new time is checked like a proposal
+   * (he is in her city that day, awake, not clashing), and the old hold or event is replaced only
+   * once the new hold is placed, so a refusal leaves the old one standing. Moving a confirmed
+   * date makes it a proposal again: she has not agreed to the new time.
+   */
+  async move(candidateId: string, slotId: string, localStart: string): Promise<PlannedDate> {
+    const plan = this.require(candidateId);
+    if (plan.status === 'released') throw new CalendarError('bad_request', `The plan with ${plan.name} was released; propose again`);
+    const old = plan.status === 'confirmed' ? plan.chosen : plan.slots.find((s) => s.id === slotId);
+    const oldHold = plan.status === 'confirmed' ? plan.holds[0] : plan.holds.find((h) => h.slotId === slotId);
+    if (!old || !oldHold) throw new CalendarError('not_found', `Slot ${slotId} is not part of the plan with ${plan.name}`);
+    const slot = await this.calendar.slotAt({ city: old.city, localStart, kind: old.kind });
+    const hold = await this.calendar.hold({ slot, label: plan.name, matchId: plan.matchId, candidateId, replaces: oldHold.holdId });
+    if (plan.status === 'confirmed') {
+      plan.status = 'proposed';
+      plan.slots = [slot];
+      plan.holds = [{ slotId: slot.id, holdId: hold.id }];
+      plan.eventId = undefined;
+      plan.chosen = undefined;
+      plan.place = undefined;
+      plan.confirmedAt = undefined;
+    } else {
+      plan.slots = plan.slots.map((s) => (s.id === slotId ? slot : s));
+      plan.holds = plan.holds.map((h) => (h.slotId === slotId ? { slotId: slot.id, holdId: hold.id } : h));
+    }
+    return plan;
+  }
+
   /** Gives back every hold (and cancels a confirmed event). For a declined offer or a discarded draft. */
   async release(candidateId: string): Promise<void> {
     const plan = this.plans.get(candidateId);
