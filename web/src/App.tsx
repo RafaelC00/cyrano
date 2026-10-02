@@ -45,6 +45,14 @@ function Wordmark() {
   );
 }
 
+function StateNote() {
+  return (
+    <p className="statenote">
+      State is kept per server instance and resets when it recycles. Your swipes, overturns and approvals are not saved, and another visitor may be on a different instance.
+    </p>
+  );
+}
+
 function Health() {
   const a = useResource(() => agent.health(), []);
   const p = useResource(() => platform.health(), []);
@@ -118,6 +126,7 @@ export default function App() {
             </p>
           </div>
           <Health />
+          <StateNote />
         </div>
       </aside>
 
@@ -159,6 +168,7 @@ export default function App() {
               {nav}
             </nav>
             <Health />
+            <StateNote />
           </div>
         </div>
       ) : null}

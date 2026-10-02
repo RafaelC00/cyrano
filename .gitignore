@@ -6,3 +6,6 @@ dist/
 data/portraits/generations/
 __pycache__/
 *.pyc
+.vercel
+
+.vercel

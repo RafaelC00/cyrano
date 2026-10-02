@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install && npm --prefix web install",
+  "buildCommand": "npm --prefix web run build",
+  "outputDirectory": "web/dist",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "data/{calibration,portraits/library}/**",
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/platform/:path*", "destination": "/api" },
+    { "source": "/api/agent/:path*", "destination": "/api" }
+  ]
+}

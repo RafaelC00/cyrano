@@ -135,6 +135,7 @@ test             node:test suites
 
 ## Limitations
 
+- **On the hosted deployment, state is per instance and resets.** The deployed site runs the platform and agent as one serverless function, and the platform, audit log, gate and scheduler live in that instance's memory. Swipes, overturns, accepts and approvals are lost when the instance recycles, and two visitors may be served by different instances. The seed is deterministic, so everyone sees the same 500 profiles and the same funnel result; only what a visitor does on top of that is local and temporary. The app's shell says so on every screen.
 - **The scheduler keeps its plans in memory.** Holds and confirmed dates persist to the calendar file when one is configured, but the plans (who was offered which slots) do not survive a restart. The server does not configure a calendar file, so a restart resets everything, as it does for the audit log and the gate.
 - **Eric's rules are strict enough that only 7 of the default 500 profiles survive them.** Calibration uses its own pool of 10000 generated profiles (439 of which pass his rules, city excluded), separate from the 500 the funnel runs on, so the model never ranks anyone it was trained on.
 - **Drafting is a template engine.** The `DraftGenerator` seam would take a model-backed generator, whose output would go through the same check, but none is implemented. The check is a word list plus facts about his itinerary and her profile. It cannot judge tone, which is why a person reads every draft. A draft a person edits by hand is not re-checked.
