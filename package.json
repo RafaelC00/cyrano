@@ -12,7 +12,9 @@
     "start": "node src/main.ts",
     "demo": "node scripts/demo.ts",
     "typecheck": "tsc --noEmit",
-    "test": "node --test \"test/**/*.test.ts\""
+    "test": "node --test \"test/**/*.test.ts\"",
+    "calibrate": "node scripts/calibrate.ts",
+    "demo:learned": "node scripts/demo-learned.ts"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.3",
