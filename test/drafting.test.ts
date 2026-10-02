@@ -23,13 +23,23 @@ async function readyDraft(over: Parameters<typeof person>[0] = {}, ctxOver: Part
 
 // ---------- language selection ----------
 
-test('language follows his order (German, English, Spanish, Dutch) among the ones she declares', () => {
-  assert.deepEqual(chooseLanguage(['en', 'de']), { language: 'de', matched: true });
-  assert.deepEqual(chooseLanguage(['nl', 'en']), { language: 'en', matched: true });
-  assert.deepEqual(chooseLanguage(['nl', 'es']), { language: 'es', matched: true });
-  assert.deepEqual(chooseLanguage(['nl']), { language: 'nl', matched: true });
-  assert.deepEqual(chooseLanguage(['DE']), { language: 'de', matched: true });
-  assert.deepEqual(chooseLanguage(['pt', 'fr']), { language: 'en', matched: false });
+test('he writes in her language: the first one she lists that he can write in', () => {
+  // Her ordering decides. His own comfort order never overrides it.
+  assert.deepEqual(chooseLanguage(['en', 'de']), { language: 'en', matched: true, decidedBy: 'hers' });
+  assert.deepEqual(chooseLanguage(['de', 'en']), { language: 'de', matched: true, decidedBy: 'hers' });
+
+  // The case that was wrong before: a Dutch speaker who also lists English gets Dutch.
+  assert.deepEqual(chooseLanguage(['nl', 'en']), { language: 'nl', matched: true, decidedBy: 'hers' });
+  assert.deepEqual(chooseLanguage(['es', 'en']), { language: 'es', matched: true, decidedBy: 'hers' });
+
+  // Languages he cannot write in are skipped, not treated as a miss.
+  assert.deepEqual(chooseLanguage(['pt', 'nl', 'en']), { language: 'nl', matched: true, decidedBy: 'hers' });
+
+  assert.deepEqual(chooseLanguage(['nl']), { language: 'nl', matched: true, decidedBy: 'hers' });
+  assert.deepEqual(chooseLanguage(['DE']), { language: 'de', matched: true, decidedBy: 'hers' });
+
+  // No overlap at all: English, and the result says it is a fallback rather than a match.
+  assert.deepEqual(chooseLanguage(['pt', 'fr']), { language: 'en', matched: false, decidedBy: 'fallback' });
 });
 
 // ---------- drafting ----------

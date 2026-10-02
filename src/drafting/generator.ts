@@ -9,20 +9,40 @@ import type { Pack, Variant } from './voice.ts';
 
 export const TEMPLATE_GENERATOR = 'voice-template-v1';
 
-/** Eric's order of preference. German first, English as the working language, then the rest. */
+/**
+ * The languages he can write in, in his own order of comfort. This is a tiebreak only.
+ * It is not the selection rule: see chooseLanguage.
+ */
 export const LANGUAGE_ORDER: readonly DraftLang[] = ['de', 'en', 'es', 'nl'];
 
 export interface LanguageChoice {
   language: DraftLang;
   /** False when she lists none of the four and English is a fallback, not a match. */
   matched: boolean;
+  /** 'hers' when her own ordering decided it, 'tiebreak' when his comfort did. */
+  decidedBy: 'hers' | 'tiebreak' | 'fallback';
 }
 
-/** The first of Eric's languages that she declares. English is the fallback, and says so. */
+/**
+ * Write to her in her language, not in his.
+ *
+ * Her declared languages are taken as ordered, most fluent first, which is how these fields
+ * are filled in practice. So the rule is: the FIRST language she lists that he can write in.
+ * His own order only breaks a tie, and only when she declares several of his languages at the
+ * same position, which cannot happen with an ordered list but is kept for callers that pass a
+ * set. English is the fallback when there is no overlap, and the result says so.
+ *
+ * Selecting by his order instead would mean a Dutch woman who also lists English receives
+ * English, which contradicts the register rule that he switches to her language, and would
+ * make Spanish and Dutch openers almost unreachable.
+ */
 export function chooseLanguage(declaredLanguages: readonly string[]): LanguageChoice {
-  const declared = new Set(declaredLanguages.map((l) => l.toLowerCase()));
-  const hit = LANGUAGE_ORDER.find((l) => declared.has(l));
-  return hit ? { language: hit, matched: true } : { language: 'en', matched: false };
+  const canWrite = new Set<string>(LANGUAGE_ORDER);
+  for (const raw of declaredLanguages) {
+    const l = raw.toLowerCase();
+    if (canWrite.has(l)) return { language: l as DraftLang, matched: true, decidedBy: 'hers' };
+  }
+  return { language: 'en', matched: false, decidedBy: 'fallback' };
 }
 
 const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
