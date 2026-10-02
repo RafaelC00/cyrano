@@ -1,0 +1,74 @@
+{
+  "extractor": "gemma3:4b",
+  "n": 60,
+  "agreementWithGenerationSpec": {
+    "setting": {
+      "agree": 48,
+      "of": 60,
+      "rate": 0.8
+    },
+    "activityKind": {
+      "agree": 46,
+      "of": 60,
+      "rate": 0.767
+    },
+    "people": {
+      "agree": 59,
+      "of": 60,
+      "rate": 0.983
+    },
+    "photoType": {
+      "agree": 51,
+      "of": 60,
+      "rate": 0.85
+    }
+  },
+  "confusion": {
+    "setting": {
+      "indoor -> indoor": 20,
+      "outdoor -> outdoor": 9,
+      "nature -> nature": 8,
+      "urban -> urban": 11,
+      "outdoor -> urban": 2,
+      "nature -> outdoor": 4,
+      "urban -> indoor": 2,
+      "urban -> outdoor": 3,
+      "outdoor -> indoor": 1
+    },
+    "activityKind": {
+      "food -> food": 6,
+      "culture -> culture": 6,
+      "sport -> sport": 3,
+      "outdoors -> outdoors": 7,
+      "everyday -> social": 1,
+      "social -> social": 3,
+      "outdoors -> none": 3,
+      "none -> culture": 2,
+      "none -> none": 13,
+      "craft -> craft": 4,
+      "everyday -> everyday": 4,
+      "everyday -> none": 1,
+      "none -> everyday": 3,
+      "everyday -> outdoors": 1,
+      "social -> none": 1,
+      "none -> social": 1,
+      "none -> outdoors": 1
+    },
+    "people": {
+      "solo -> solo": 46,
+      "group -> group": 13,
+      "solo -> group": 1
+    },
+    "photoType": {
+      "candid -> candid": 16,
+      "posed -> posed": 17,
+      "portrait -> portrait": 18,
+      "candid -> portrait": 2,
+      "posed -> candid": 2,
+      "candid -> posed": 2,
+      "posed -> portrait": 1,
+      "portrait -> posed": 2
+    }
+  },
+  "note": "The spec is what the generator was ASKED to draw. The image generator can drift from its prompt, so disagreement is not purely extractor error. The extractor prompt was revised once after a first pass over these same 60 portraits (definitions of indoor versus urban, and of none and portrait, were clarified); that first pass is kept in extraction-eval.pass1.json, and the agreement rates here are therefore mildly optimistic."
+}

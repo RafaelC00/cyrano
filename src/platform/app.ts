@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { handleError, HttpError, readJson } from '../http.ts';
+import { assignPortrait, defaultLibrary } from '../vision/library.ts';
 import { parsePhotoRef, renderPhoto } from './photo.ts';
 import type { PlatformStore } from './store.ts';
 
@@ -42,6 +43,15 @@ export function createPlatformApp(store: PlatformStore): Hono {
 
   app.get('/photos/:ref', (c) => {
     const parsed = parsePhotoRef(c.req.param('ref'));
+    if (parsed?.scheme === 'gp') {
+      const lib = defaultLibrary();
+      const entry = lib.size ? assignPortrait(store.getCandidate(parsed.profileId), lib) : undefined;
+      if (entry) return c.body(new Uint8Array(lib.bytes(entry)), 200, { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=31536000, immutable' });
+      // No library on disk (a checkout without data/): fall back to the placeholder art.
+      const fallback = renderPhoto(`ph:v1:${parsed.profileId}:${parsed.slot}`, store.initialsFor(parsed.profileId) ?? '');
+      if (!fallback) throw new HttpError(404, 'not_found', 'Unknown photoRef');
+      return c.body(fallback, 200, { 'Content-Type': 'image/svg+xml' });
+    }
     const initials = parsed ? store.initialsFor(parsed.profileId) : null;
     const svg = parsed && initials ? renderPhoto(c.req.param('ref'), initials) : null;
     if (!svg) throw new HttpError(404, 'not_found', 'Unknown photoRef');

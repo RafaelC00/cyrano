@@ -91,7 +91,8 @@ test('matches have threads, and messages are validated', async () => {
 
 test('photo placeholders are deterministic SVG and unknown refs 404', async () => {
   const { app, store } = createPlatform();
-  const ref = store.getCandidate('p_0020').photos[0]!.photoRef;
+  // Slot 0 is a generated portrait (see test/vision.test.ts); other slots stay placeholder art.
+  const ref = store.getCandidate('p_0020').photos[1]!.photoRef;
   const a = await app.request(`/photos/${encodeURIComponent(ref)}`);
   const b = await app.request(`/photos/${encodeURIComponent(ref)}`);
   assert.equal(a.status, 200);

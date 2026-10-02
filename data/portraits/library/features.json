@@ -1,0 +1,1029 @@
+{
+ "extractor": {
+  "pixels": "opencv",
+  "scene": "gemma3:4b",
+  "temperature": 0
+ },
+ "features": [
+  {
+   "id": "lib_001",
+   "setting": "indoor",
+   "activityKind": "food",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.578,
+    "contrast": 0.281,
+    "sharpness": 249.25,
+    "clippedHighlights": 0.0347,
+    "underexposed": 0.0292
+   }
+  },
+  {
+   "id": "lib_002",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.1892,
+    "contrast": 0.2176,
+    "sharpness": 453.98,
+    "clippedHighlights": 0.0001,
+    "underexposed": 0.4045
+   }
+  },
+  {
+   "id": "lib_003",
+   "setting": "outdoor",
+   "activityKind": "sport",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5509,
+    "contrast": 0.2448,
+    "sharpness": 556.42,
+    "clippedHighlights": 0.0449,
+    "underexposed": 0.0471
+   }
+  },
+  {
+   "id": "lib_004",
+   "setting": "nature",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4624,
+    "contrast": 0.2505,
+    "sharpness": 863.64,
+    "clippedHighlights": 0.017,
+    "underexposed": 0.0571
+   }
+  },
+  {
+   "id": "lib_005",
+   "setting": "urban",
+   "activityKind": "social",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4764,
+    "contrast": 0.2522,
+    "sharpness": 275.76,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.0459
+   }
+  },
+  {
+   "id": "lib_006",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2423,
+    "contrast": 0.2241,
+    "sharpness": 312.21,
+    "clippedHighlights": 0.0024,
+    "underexposed": 0.266
+   }
+  },
+  {
+   "id": "lib_007",
+   "setting": "urban",
+   "activityKind": "social",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2881,
+    "contrast": 0.3132,
+    "sharpness": 144.94,
+    "clippedHighlights": 0.0001,
+    "underexposed": 0.3526
+   }
+  },
+  {
+   "id": "lib_008",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.51,
+    "contrast": 0.3111,
+    "sharpness": 329.03,
+    "clippedHighlights": 0.0162,
+    "underexposed": 0.0948
+   }
+  },
+  {
+   "id": "lib_009",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4239,
+    "contrast": 0.3407,
+    "sharpness": 165.44,
+    "clippedHighlights": 0.0033,
+    "underexposed": 0.235
+   }
+  },
+  {
+   "id": "lib_010",
+   "setting": "indoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4539,
+    "contrast": 0.2269,
+    "sharpness": 134.05,
+    "clippedHighlights": 0.0375,
+    "underexposed": 0.0201
+   }
+  },
+  {
+   "id": "lib_011",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5004,
+    "contrast": 0.3003,
+    "sharpness": 322.1,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.0718
+   }
+  },
+  {
+   "id": "lib_012",
+   "setting": "nature",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4164,
+    "contrast": 0.3135,
+    "sharpness": 114.74,
+    "clippedHighlights": 0.0304,
+    "underexposed": 0.1758
+   }
+  },
+  {
+   "id": "lib_013",
+   "setting": "urban",
+   "activityKind": "food",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.3132,
+    "contrast": 0.2364,
+    "sharpness": 186.39,
+    "clippedHighlights": 0.0086,
+    "underexposed": 0.1677
+   }
+  },
+  {
+   "id": "lib_014",
+   "setting": "indoor",
+   "activityKind": "craft",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4187,
+    "contrast": 0.2494,
+    "sharpness": 522.0,
+    "clippedHighlights": 0.0096,
+    "underexposed": 0.0596
+   }
+  },
+  {
+   "id": "lib_015",
+   "setting": "indoor",
+   "activityKind": "everyday",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2025,
+    "contrast": 0.2143,
+    "sharpness": 171.67,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.3952
+   }
+  },
+  {
+   "id": "lib_016",
+   "setting": "outdoor",
+   "activityKind": "outdoors",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2277,
+    "contrast": 0.1812,
+    "sharpness": 368.88,
+    "clippedHighlights": 0.0005,
+    "underexposed": 0.2482
+   }
+  },
+  {
+   "id": "lib_017",
+   "setting": "urban",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5591,
+    "contrast": 0.251,
+    "sharpness": 366.03,
+    "clippedHighlights": 0.0475,
+    "underexposed": 0.0372
+   }
+  },
+  {
+   "id": "lib_018",
+   "setting": "outdoor",
+   "activityKind": "social",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.3785,
+    "contrast": 0.2729,
+    "sharpness": 264.19,
+    "clippedHighlights": 0.0025,
+    "underexposed": 0.182
+   }
+  },
+  {
+   "id": "lib_019",
+   "setting": "indoor",
+   "activityKind": "craft",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4758,
+    "contrast": 0.2789,
+    "sharpness": 301.68,
+    "clippedHighlights": 0.0456,
+    "underexposed": 0.062
+   }
+  },
+  {
+   "id": "lib_020",
+   "setting": "outdoor",
+   "activityKind": "food",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4085,
+    "contrast": 0.2712,
+    "sharpness": 335.43,
+    "clippedHighlights": 0.012,
+    "underexposed": 0.0899
+   }
+  },
+  {
+   "id": "lib_021",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.6232,
+    "contrast": 0.3001,
+    "sharpness": 258.47,
+    "clippedHighlights": 0.0083,
+    "underexposed": 0.022
+   }
+  },
+  {
+   "id": "lib_022",
+   "setting": "urban",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4096,
+    "contrast": 0.2367,
+    "sharpness": 137.27,
+    "clippedHighlights": 0.0343,
+    "underexposed": 0.0471
+   }
+  },
+  {
+   "id": "lib_023",
+   "setting": "indoor",
+   "activityKind": "everyday",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4559,
+    "contrast": 0.2928,
+    "sharpness": 221.88,
+    "clippedHighlights": 0.0291,
+    "underexposed": 0.0676
+   }
+  },
+  {
+   "id": "lib_024",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.18,
+    "contrast": 0.1522,
+    "sharpness": 129.52,
+    "clippedHighlights": 0.0007,
+    "underexposed": 0.2501
+   }
+  },
+  {
+   "id": "lib_025",
+   "setting": "nature",
+   "activityKind": "outdoors",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.101,
+    "contrast": 0.0969,
+    "sharpness": 141.53,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.554
+   }
+  },
+  {
+   "id": "lib_026",
+   "setting": "urban",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4542,
+    "contrast": 0.2226,
+    "sharpness": 526.32,
+    "clippedHighlights": 0.0012,
+    "underexposed": 0.072
+   }
+  },
+  {
+   "id": "lib_027",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.3673,
+    "contrast": 0.268,
+    "sharpness": 293.09,
+    "clippedHighlights": 0.0258,
+    "underexposed": 0.167
+   }
+  },
+  {
+   "id": "lib_028",
+   "setting": "indoor",
+   "activityKind": "social",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2712,
+    "contrast": 0.2238,
+    "sharpness": 137.58,
+    "clippedHighlights": 0.0055,
+    "underexposed": 0.2784
+   }
+  },
+  {
+   "id": "lib_029",
+   "setting": "nature",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.476,
+    "contrast": 0.2982,
+    "sharpness": 409.08,
+    "clippedHighlights": 0.0248,
+    "underexposed": 0.0807
+   }
+  },
+  {
+   "id": "lib_030",
+   "setting": "urban",
+   "activityKind": "everyday",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4255,
+    "contrast": 0.2842,
+    "sharpness": 385.01,
+    "clippedHighlights": 0.0014,
+    "underexposed": 0.0801
+   }
+  },
+  {
+   "id": "lib_031",
+   "setting": "indoor",
+   "activityKind": "food",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5493,
+    "contrast": 0.2716,
+    "sharpness": 201.31,
+    "clippedHighlights": 0.025,
+    "underexposed": 0.033
+   }
+  },
+  {
+   "id": "lib_032",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.3029,
+    "contrast": 0.2412,
+    "sharpness": 401.28,
+    "clippedHighlights": 0.0059,
+    "underexposed": 0.2021
+   }
+  },
+  {
+   "id": "lib_033",
+   "setting": "indoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.1873,
+    "contrast": 0.1538,
+    "sharpness": 71.53,
+    "clippedHighlights": 0.0001,
+    "underexposed": 0.261
+   }
+  },
+  {
+   "id": "lib_034",
+   "setting": "nature",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.1305,
+    "contrast": 0.1595,
+    "sharpness": 102.04,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.588
+   }
+  },
+  {
+   "id": "lib_035",
+   "setting": "urban",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4547,
+    "contrast": 0.3428,
+    "sharpness": 111.8,
+    "clippedHighlights": 0.0068,
+    "underexposed": 0.2227
+   }
+  },
+  {
+   "id": "lib_036",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4288,
+    "contrast": 0.3017,
+    "sharpness": 171.56,
+    "clippedHighlights": 0.0827,
+    "underexposed": 0.0695
+   }
+  },
+  {
+   "id": "lib_037",
+   "setting": "urban",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4348,
+    "contrast": 0.2977,
+    "sharpness": 204.84,
+    "clippedHighlights": 0.0149,
+    "underexposed": 0.123
+   }
+  },
+  {
+   "id": "lib_038",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2832,
+    "contrast": 0.1838,
+    "sharpness": 168.76,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.2082
+   }
+  },
+  {
+   "id": "lib_039",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4946,
+    "contrast": 0.3416,
+    "sharpness": 298.21,
+    "clippedHighlights": 0.0194,
+    "underexposed": 0.1967
+   }
+  },
+  {
+   "id": "lib_040",
+   "setting": "indoor",
+   "activityKind": "sport",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4698,
+    "contrast": 0.252,
+    "sharpness": 171.85,
+    "clippedHighlights": 0.0127,
+    "underexposed": 0.0693
+   }
+  },
+  {
+   "id": "lib_041",
+   "setting": "outdoor",
+   "activityKind": "outdoors",
+   "people": "group",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5218,
+    "contrast": 0.2783,
+    "sharpness": 1360.7,
+    "clippedHighlights": 0.0029,
+    "underexposed": 0.0435
+   }
+  },
+  {
+   "id": "lib_042",
+   "setting": "nature",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.1809,
+    "contrast": 0.1715,
+    "sharpness": 178.91,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.4104
+   }
+  },
+  {
+   "id": "lib_043",
+   "setting": "urban",
+   "activityKind": "food",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2427,
+    "contrast": 0.2167,
+    "sharpness": 539.0,
+    "clippedHighlights": 0.0074,
+    "underexposed": 0.2454
+   }
+  },
+  {
+   "id": "lib_044",
+   "setting": "indoor",
+   "activityKind": "craft",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4493,
+    "contrast": 0.2626,
+    "sharpness": 262.82,
+    "clippedHighlights": 0.014,
+    "underexposed": 0.0815
+   }
+  },
+  {
+   "id": "lib_045",
+   "setting": "indoor",
+   "activityKind": "everyday",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4312,
+    "contrast": 0.3012,
+    "sharpness": 112.34,
+    "clippedHighlights": 0.0196,
+    "underexposed": 0.145
+   }
+  },
+  {
+   "id": "lib_046",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.393,
+    "contrast": 0.2157,
+    "sharpness": 443.6,
+    "clippedHighlights": 0.0003,
+    "underexposed": 0.0403
+   }
+  },
+  {
+   "id": "lib_047",
+   "setting": "urban",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2089,
+    "contrast": 0.1944,
+    "sharpness": 119.39,
+    "clippedHighlights": 0.0009,
+    "underexposed": 0.3812
+   }
+  },
+  {
+   "id": "lib_048",
+   "setting": "outdoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5326,
+    "contrast": 0.2802,
+    "sharpness": 159.95,
+    "clippedHighlights": 0.0652,
+    "underexposed": 0.0484
+   }
+  },
+  {
+   "id": "lib_049",
+   "setting": "indoor",
+   "activityKind": "craft",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.473,
+    "contrast": 0.2496,
+    "sharpness": 252.86,
+    "clippedHighlights": 0.0438,
+    "underexposed": 0.0333
+   }
+  },
+  {
+   "id": "lib_050",
+   "setting": "outdoor",
+   "activityKind": "food",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.526,
+    "contrast": 0.2501,
+    "sharpness": 214.7,
+    "clippedHighlights": 0.0141,
+    "underexposed": 0.0247
+   }
+  },
+  {
+   "id": "lib_051",
+   "setting": "outdoor",
+   "activityKind": "sport",
+   "people": "solo",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2932,
+    "contrast": 0.1444,
+    "sharpness": 66.27,
+    "clippedHighlights": 0.0,
+    "underexposed": 0.0652
+   }
+  },
+  {
+   "id": "lib_052",
+   "setting": "urban",
+   "activityKind": "everyday",
+   "people": "group",
+   "photoType": "candid",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2033,
+    "contrast": 0.2108,
+    "sharpness": 198.05,
+    "clippedHighlights": 0.004,
+    "underexposed": 0.3795
+   }
+  },
+  {
+   "id": "lib_053",
+   "setting": "indoor",
+   "activityKind": "culture",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5272,
+    "contrast": 0.2816,
+    "sharpness": 209.99,
+    "clippedHighlights": 0.0195,
+    "underexposed": 0.0454
+   }
+  },
+  {
+   "id": "lib_054",
+   "setting": "outdoor",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.5062,
+    "contrast": 0.2102,
+    "sharpness": 632.11,
+    "clippedHighlights": 0.0076,
+    "underexposed": 0.0291
+   }
+  },
+  {
+   "id": "lib_055",
+   "setting": "nature",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4237,
+    "contrast": 0.2348,
+    "sharpness": 245.51,
+    "clippedHighlights": 0.0074,
+    "underexposed": 0.0542
+   }
+  },
+  {
+   "id": "lib_056",
+   "setting": "outdoor",
+   "activityKind": "everyday",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4159,
+    "contrast": 0.2638,
+    "sharpness": 817.71,
+    "clippedHighlights": 0.0315,
+    "underexposed": 0.0912
+   }
+  },
+  {
+   "id": "lib_057",
+   "setting": "indoor",
+   "activityKind": "none",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.4131,
+    "contrast": 0.2594,
+    "sharpness": 371.2,
+    "clippedHighlights": 0.0013,
+    "underexposed": 0.0911
+   }
+  },
+  {
+   "id": "lib_058",
+   "setting": "indoor",
+   "activityKind": "social",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2012,
+    "contrast": 0.2107,
+    "sharpness": 130.28,
+    "clippedHighlights": 0.0071,
+    "underexposed": 0.3686
+   }
+  },
+  {
+   "id": "lib_059",
+   "setting": "nature",
+   "activityKind": "outdoors",
+   "people": "solo",
+   "photoType": "posed",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.454,
+    "contrast": 0.2787,
+    "sharpness": 183.89,
+    "clippedHighlights": 0.0025,
+    "underexposed": 0.107
+   }
+  },
+  {
+   "id": "lib_060",
+   "setting": "urban",
+   "activityKind": "everyday",
+   "people": "solo",
+   "photoType": "portrait",
+   "pixels": {
+    "width": 825,
+    "height": 1024,
+    "megapixels": 0.845,
+    "brightness": 0.2277,
+    "contrast": 0.2007,
+    "sharpness": 274.86,
+    "clippedHighlights": 0.002,
+    "underexposed": 0.2258
+   }
+  }
+ ]
+}

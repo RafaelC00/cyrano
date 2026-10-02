@@ -1,0 +1,1387 @@
+{
+ "note": "Every portrait is a generated image of an invented person. A library of this size is reused across all profiles (see src/vision/assign.ts).",
+ "generation": "20261002T095001Z",
+ "count": 60,
+ "entries": [
+  {
+   "id": "lib_001",
+   "file": "lib_001.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_001",
+    "age": 24,
+    "gender": "woman",
+    "looks": "light skin and short dark hair",
+    "setting": "indoor",
+    "detail": "a bright home kitchen",
+    "activity": "chopping vegetables",
+    "activityKind": "food",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 24 years old, with light skin and short dark hair. Setting: a bright home kitchen. The person is chopping vegetables. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_002",
+   "file": "lib_002.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_002",
+    "age": 36,
+    "gender": "man",
+    "looks": "East Asian features and a bob haircut",
+    "setting": "indoor",
+    "detail": "a rehearsal room with a piano",
+    "activity": "playing the piano",
+    "activityKind": "culture",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 36 years old, with East Asian features and a bob haircut. Setting: a rehearsal room with a piano. The person is playing the piano. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_003",
+   "file": "lib_003.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_003",
+    "age": 34,
+    "gender": "woman",
+    "looks": "Southeast Asian features and shoulder-length hair",
+    "setting": "outdoor",
+    "detail": "a tennis court",
+    "activity": "resting between games",
+    "activityKind": "sport",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 34 years old, with Southeast Asian features and shoulder-length hair. Setting: a tennis court. The person is resting between games. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_004",
+   "file": "lib_004.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_004",
+    "age": 31,
+    "gender": "man",
+    "looks": "olive skin and long wavy brown hair",
+    "setting": "nature",
+    "detail": "a camping spot beside a river",
+    "activity": "pouring coffee from a pot",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 31 years old, with olive skin and long wavy brown hair. Setting: a camping spot beside a river. The person is pouring coffee from a pot. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_005",
+   "file": "lib_005.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_005",
+    "age": 26,
+    "gender": "nonbinary person",
+    "looks": "South Asian features and long black hair",
+    "setting": "urban",
+    "detail": "a bridge over a river at sunset",
+    "activity": "leaning on the railing",
+    "activityKind": "everyday",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 26 years old, with South Asian features and long black hair. Setting: a bridge over a river at sunset. The person is leaning on the railing. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_006",
+   "file": "lib_006.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_006",
+    "age": 27,
+    "gender": "woman",
+    "looks": "Middle Eastern features and a short hair",
+    "setting": "indoor",
+    "detail": "a living room with a record player",
+    "activity": "choosing a vinyl record",
+    "activityKind": "culture",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 27 years old, with Middle Eastern features and a short hair. Setting: a living room with a record player. The person is choosing a vinyl record. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_007",
+   "file": "lib_007.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_007",
+    "age": 39,
+    "gender": "man",
+    "looks": "dark brown skin and close-cropped hair",
+    "setting": "outdoor",
+    "detail": "a rooftop terrace at golden hour",
+    "activity": "holding a glass",
+    "activityKind": "social",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 39 years old, with dark brown skin and close-cropped hair. Setting: a rooftop terrace at golden hour. The person is holding a glass. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_008",
+   "file": "lib_008.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_008",
+    "age": 41,
+    "gender": "woman",
+    "looks": "Black woman with natural curls",
+    "setting": "nature",
+    "detail": "a quiet lake shore",
+    "activity": "sitting on a jetty",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 41 years old, with Black woman with natural curls. Setting: a quiet lake shore. The person is sitting on a jetty. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_009",
+   "file": "lib_009.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_009",
+    "age": 33,
+    "gender": "man",
+    "looks": "olive skin and a grey streak in dark hair",
+    "setting": "urban",
+    "detail": "a gallery opening",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 33 years old, with olive skin and a grey streak in dark hair. Setting: a gallery opening. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_010",
+   "file": "lib_010.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_010",
+    "age": 30,
+    "gender": "woman",
+    "looks": "pale skin with freckles and red hair",
+    "setting": "indoor",
+    "detail": "a climbing gym",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 30 years old, with pale skin with freckles and red hair. Setting: a climbing gym. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_011",
+   "file": "lib_011.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_011",
+    "age": 29,
+    "gender": "woman",
+    "looks": "light skin, blond hair and glasses",
+    "setting": "outdoor",
+    "detail": "a harbour with small boats",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 29 years old, with light skin, blond hair and glasses. Setting: a harbour with small boats. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_012",
+   "file": "lib_012.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_012",
+    "age": 43,
+    "gender": "man",
+    "looks": "light skin and short dark hair",
+    "setting": "nature",
+    "detail": "a rocky coastline",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 43 years old, with light skin and short dark hair. Setting: a rocky coastline. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_013",
+   "file": "lib_013.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_013",
+    "age": 25,
+    "gender": "woman",
+    "looks": "East Asian features and a bob haircut",
+    "setting": "urban",
+    "detail": "a street market at dusk",
+    "activity": "eating street food",
+    "activityKind": "food",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 25 years old, with East Asian features and a bob haircut. Setting: a street market at dusk. The person is eating street food. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_014",
+   "file": "lib_014.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_014",
+    "age": 37,
+    "gender": "man",
+    "looks": "Southeast Asian features and shoulder-length hair",
+    "setting": "indoor",
+    "detail": "a ceramics studio with shelves of pots",
+    "activity": "shaping a bowl at a wheel",
+    "activityKind": "craft",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 37 years old, with Southeast Asian features and shoulder-length hair. Setting: a ceramics studio with shelves of pots. The person is shaping a bowl at a wheel. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_015",
+   "file": "lib_015.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_015",
+    "age": 35,
+    "gender": "nonbinary person",
+    "looks": "dark brown skin and close-cropped hair",
+    "setting": "indoor",
+    "detail": "a cluttered home office",
+    "activity": "looking up from a laptop",
+    "activityKind": "everyday",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 35 years old, with dark brown skin and close-cropped hair. Setting: a cluttered home office. The person is looking up from a laptop. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_016",
+   "file": "lib_016.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_016",
+    "age": 32,
+    "gender": "woman",
+    "looks": "tan skin and curly grey-flecked hair",
+    "setting": "outdoor",
+    "detail": "a community garden",
+    "activity": "kneeling to plant seedlings",
+    "activityKind": "outdoors",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 32 years old, with tan skin and curly grey-flecked hair. Setting: a community garden. The person is kneeling to plant seedlings. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_017",
+   "file": "lib_017.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_017",
+    "age": 27,
+    "gender": "man",
+    "looks": "medium skin with a shaved head",
+    "setting": "urban",
+    "detail": "a narrow old-town street",
+    "activity": "walking past tiled walls",
+    "activityKind": "everyday",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 27 years old, with medium skin with a shaved head. Setting: a narrow old-town street. The person is walking past tiled walls. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_018",
+   "file": "lib_018.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_018",
+    "age": 28,
+    "gender": "woman",
+    "looks": "medium brown skin and a ponytail",
+    "setting": "urban",
+    "detail": "an open-air concert crowd",
+    "activity": "dancing",
+    "activityKind": "social",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 28 years old, with medium brown skin and a ponytail. Setting: an open-air concert crowd. The person is dancing. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_019",
+   "file": "lib_019.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_019",
+    "age": 40,
+    "gender": "man",
+    "looks": "Black man with natural curls",
+    "setting": "indoor",
+    "detail": "a woodworking workshop",
+    "activity": "sanding a table leg",
+    "activityKind": "craft",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 40 years old, with Black man with natural curls. Setting: a woodworking workshop. The person is sanding a table leg. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_020",
+   "file": "lib_020.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_020",
+    "age": 42,
+    "gender": "woman",
+    "looks": "olive skin and a grey streak in dark hair",
+    "setting": "outdoor",
+    "detail": "a farmers market",
+    "activity": "choosing fruit at a stall",
+    "activityKind": "food",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 42 years old, with olive skin and a grey streak in dark hair. Setting: a farmers market. The person is choosing fruit at a stall. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_021",
+   "file": "lib_021.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_021",
+    "age": 34,
+    "gender": "woman",
+    "looks": "pale skin with freckles and red hair",
+    "setting": "nature",
+    "detail": "a beach at low tide",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 34 years old, with pale skin with freckles and red hair. Setting: a beach at low tide. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_022",
+   "file": "lib_022.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_022",
+    "age": 31,
+    "gender": "man",
+    "looks": "Southeast Asian features and shoulder-length hair",
+    "setting": "urban",
+    "detail": "a train platform",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 31 years old, with Southeast Asian features and shoulder-length hair. Setting: a train platform. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_023",
+   "file": "lib_023.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_023",
+    "age": 30,
+    "gender": "woman",
+    "looks": "olive skin and long wavy brown hair",
+    "setting": "indoor",
+    "detail": "a cafe with large windows",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 30 years old, with olive skin and long wavy brown hair. Setting: a cafe with large windows. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_024",
+   "file": "lib_024.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_024",
+    "age": 44,
+    "gender": "man",
+    "looks": "South Asian features and long black hair",
+    "setting": "outdoor",
+    "detail": "a city park in autumn",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 44 years old, with South Asian features and long black hair. Setting: a city park in autumn. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_025",
+   "file": "lib_025.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_025",
+    "age": 26,
+    "gender": "nonbinary person",
+    "looks": "Middle Eastern features and a short short hair",
+    "setting": "nature",
+    "detail": "a pine forest path",
+    "activity": "stopping to look up",
+    "activityKind": "outdoors",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 26 years old, with Middle Eastern features and a short short hair. Setting: a pine forest path. The person is stopping to look up. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_026",
+   "file": "lib_026.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_026",
+    "age": 38,
+    "gender": "woman",
+    "looks": "dark brown skin and close-cropped hair",
+    "setting": "urban",
+    "detail": "a cycle lane by a canal",
+    "activity": "standing beside a bicycle",
+    "activityKind": "everyday",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 38 years old, with dark brown skin and close-cropped hair. Setting: a cycle lane by a canal. The person is standing beside a bicycle. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_027",
+   "file": "lib_027.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_027",
+    "age": 36,
+    "gender": "man",
+    "looks": "tan skin and curly grey-flecked hair",
+    "setting": "indoor",
+    "detail": "a small neighbourhood bookshop",
+    "activity": "browsing a shelf",
+    "activityKind": "culture",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 36 years old, with tan skin and curly grey-flecked hair. Setting: a small neighbourhood bookshop. The person is browsing a shelf. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_028",
+   "file": "lib_028.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_028",
+    "age": 33,
+    "gender": "woman",
+    "looks": "medium skin with a shaved head",
+    "setting": "indoor",
+    "detail": "a restaurant table at night",
+    "activity": "laughing over dinner",
+    "activityKind": "social",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 33 years old, with medium skin with a shaved head. Setting: a restaurant table at night. The person is laughing over dinner. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_029",
+   "file": "lib_029.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_029",
+    "age": 28,
+    "gender": "man",
+    "looks": "pale skin with freckles and red hair",
+    "setting": "nature",
+    "detail": "a mountain trail above a valley",
+    "activity": "hiking with a small backpack",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 28 years old, with pale skin with freckles and red hair. Setting: a mountain trail above a valley. The person is hiking with a small backpack. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_030",
+   "file": "lib_030.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_030",
+    "age": 29,
+    "gender": "woman",
+    "looks": "light skin, blond hair and glasses",
+    "setting": "urban",
+    "detail": "a tram stop in the rain",
+    "activity": "waiting under an umbrella",
+    "activityKind": "everyday",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 29 years old, with light skin, blond hair and glasses. Setting: a tram stop in the rain. The person is waiting under an umbrella. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_031",
+   "file": "lib_031.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_031",
+    "age": 41,
+    "gender": "woman",
+    "looks": "light skin and short dark hair",
+    "setting": "indoor",
+    "detail": "a bright home kitchen",
+    "activity": "chopping vegetables",
+    "activityKind": "food",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 41 years old, with light skin and short dark hair. Setting: a bright home kitchen. The person is chopping vegetables. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_032",
+   "file": "lib_032.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_032",
+    "age": 43,
+    "gender": "man",
+    "looks": "East Asian features and a bob haircut",
+    "setting": "indoor",
+    "detail": "a rehearsal room with a piano",
+    "activity": "playing the piano",
+    "activityKind": "culture",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 43 years old, with East Asian features and a bob haircut. Setting: a rehearsal room with a piano. The person is playing the piano. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_033",
+   "file": "lib_033.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_033",
+    "age": 35,
+    "gender": "woman",
+    "looks": "Southeast Asian features and shoulder-length hair",
+    "setting": "outdoor",
+    "detail": "a tennis court",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 35 years old, with Southeast Asian features and shoulder-length hair. Setting: a tennis court. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_034",
+   "file": "lib_034.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_034",
+    "age": 32,
+    "gender": "man",
+    "looks": "olive skin and long wavy brown hair",
+    "setting": "nature",
+    "detail": "a camping spot beside a river",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 32 years old, with olive skin and long wavy brown hair. Setting: a camping spot beside a river. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_035",
+   "file": "lib_035.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_035",
+    "age": 31,
+    "gender": "nonbinary person",
+    "looks": "South Asian features and long black hair",
+    "setting": "urban",
+    "detail": "a bridge over a river at sunset",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 31 years old, with South Asian features and long black hair. Setting: a bridge over a river at sunset. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_036",
+   "file": "lib_036.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_036",
+    "age": 45,
+    "gender": "woman",
+    "looks": "medium skin with a shaved head",
+    "setting": "indoor",
+    "detail": "a living room with a record player",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 45 years old, with medium skin with a shaved head. Setting: a living room with a record player. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_037",
+   "file": "lib_037.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_037",
+    "age": 27,
+    "gender": "man",
+    "looks": "medium brown skin and a ponytail",
+    "setting": "outdoor",
+    "detail": "a rooftop terrace at golden hour",
+    "activity": "holding a glass",
+    "activityKind": "social",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 27 years old, with medium brown skin and a ponytail. Setting: a rooftop terrace at golden hour. The person is holding a glass. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_038",
+   "file": "lib_038.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_038",
+    "age": 39,
+    "gender": "woman",
+    "looks": "Black woman with natural curls",
+    "setting": "nature",
+    "detail": "a quiet lake shore",
+    "activity": "sitting on a jetty",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 39 years old, with Black woman with natural curls. Setting: a quiet lake shore. The person is sitting on a jetty. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_039",
+   "file": "lib_039.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_039",
+    "age": 37,
+    "gender": "man",
+    "looks": "olive skin and a grey streak in dark hair",
+    "setting": "urban",
+    "detail": "a gallery opening",
+    "activity": "looking at a painting",
+    "activityKind": "culture",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 37 years old, with olive skin and a grey streak in dark hair. Setting: a gallery opening. The person is looking at a painting. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_040",
+   "file": "lib_040.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_040",
+    "age": 34,
+    "gender": "woman",
+    "looks": "pale skin with freckles and red hair",
+    "setting": "indoor",
+    "detail": "a climbing gym",
+    "activity": "chalking hands before a route",
+    "activityKind": "sport",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 34 years old, with pale skin with freckles and red hair. Setting: a climbing gym. The person is chalking hands before a route. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_041",
+   "file": "lib_041.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_041",
+    "age": 29,
+    "gender": "woman",
+    "looks": "light skin, blond hair and glasses",
+    "setting": "outdoor",
+    "detail": "a harbour with small boats",
+    "activity": "coiling a rope",
+    "activityKind": "outdoors",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 29 years old, with light skin, blond hair and glasses. Setting: a harbour with small boats. The person is coiling a rope. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_042",
+   "file": "lib_042.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_042",
+    "age": 30,
+    "gender": "man",
+    "looks": "light skin and short dark hair",
+    "setting": "nature",
+    "detail": "a rocky coastline",
+    "activity": "standing at the water's edge",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 30 years old, with light skin and short dark hair. Setting: a rocky coastline. The person is standing at the water's edge. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_043",
+   "file": "lib_043.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_043",
+    "age": 42,
+    "gender": "woman",
+    "looks": "South Asian features and long black hair",
+    "setting": "urban",
+    "detail": "a street market at dusk",
+    "activity": "eating street food",
+    "activityKind": "food",
+    "people": "group",
+    "photoType": "posed",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 42 years old, with South Asian features and long black hair. Setting: a street market at dusk. The person is eating street food. Two friends are visible beside them, smiling. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_044",
+   "file": "lib_044.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_044",
+    "age": 44,
+    "gender": "man",
+    "looks": "Middle Eastern features and a short beard",
+    "setting": "indoor",
+    "detail": "a ceramics studio with shelves of pots",
+    "activity": "shaping a bowl at a wheel",
+    "activityKind": "craft",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 44 years old, with Middle Eastern features and a short beard. Setting: a ceramics studio with shelves of pots. The person is shaping a bowl at a wheel. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_045",
+   "file": "lib_045.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_045",
+    "age": 36,
+    "gender": "nonbinary person",
+    "looks": "dark brown skin and close-cropped hair",
+    "setting": "indoor",
+    "detail": "a cluttered home office",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 36 years old, with dark brown skin and close-cropped hair. Setting: a cluttered home office. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_046",
+   "file": "lib_046.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_046",
+    "age": 33,
+    "gender": "woman",
+    "looks": "tan skin and curly grey-flecked hair",
+    "setting": "outdoor",
+    "detail": "a community garden",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 33 years old, with tan skin and curly grey-flecked hair. Setting: a community garden. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_047",
+   "file": "lib_047.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_047",
+    "age": 32,
+    "gender": "man",
+    "looks": "medium skin with a shaved head",
+    "setting": "urban",
+    "detail": "a narrow old-town street",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 32 years old, with medium skin with a shaved head. Setting: a narrow old-town street. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_048",
+   "file": "lib_048.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_048",
+    "age": 46,
+    "gender": "woman",
+    "looks": "medium brown skin and a ponytail",
+    "setting": "urban",
+    "detail": "an open-air concert crowd",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 46 years old, with medium brown skin and a ponytail. Setting: an open-air concert crowd. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_049",
+   "file": "lib_049.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_049",
+    "age": 28,
+    "gender": "man",
+    "looks": "Black man with natural curls",
+    "setting": "indoor",
+    "detail": "a woodworking workshop",
+    "activity": "sanding a table leg",
+    "activityKind": "craft",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 28 years old, with Black man with natural curls. Setting: a woodworking workshop. The person is sanding a table leg. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_050",
+   "file": "lib_050.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_050",
+    "age": 40,
+    "gender": "woman",
+    "looks": "light skin and short dark hair",
+    "setting": "outdoor",
+    "detail": "a farmers market",
+    "activity": "choosing fruit at a stall",
+    "activityKind": "food",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 40 years old, with light skin and short dark hair. Setting: a farmers market. The person is choosing fruit at a stall. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_051",
+   "file": "lib_051.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_051",
+    "age": 38,
+    "gender": "woman",
+    "looks": "East Asian features and a bob haircut",
+    "setting": "nature",
+    "detail": "a beach at low tide",
+    "activity": "carrying a surfboard",
+    "activityKind": "sport",
+    "people": "solo",
+    "photoType": "candid",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 38 years old, with East Asian features and a bob haircut. Setting: a beach at low tide. The person is carrying a surfboard. Only this one person is in the frame. It is a candid photo, the person not looking at the camera. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_052",
+   "file": "lib_052.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_052",
+    "age": 35,
+    "gender": "man",
+    "looks": "Southeast Asian features and shoulder-length hair",
+    "setting": "urban",
+    "detail": "a train platform",
+    "activity": "carrying a small bag",
+    "activityKind": "everyday",
+    "people": "group",
+    "photoType": "candid",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 35 years old, with Southeast Asian features and shoulder-length hair. Setting: a train platform. The person is carrying a small bag. Two friends are visible beside them, smiling. It is a candid photo, the person not looking at the camera. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_053",
+   "file": "lib_053.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_053",
+    "age": 30,
+    "gender": "woman",
+    "looks": "olive skin and long wavy brown hair",
+    "setting": "indoor",
+    "detail": "a cafe with large windows",
+    "activity": "reading with a coffee",
+    "activityKind": "culture",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 30 years old, with olive skin and long wavy brown hair. Setting: a cafe with large windows. The person is reading with a coffee. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, soft window light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_054",
+   "file": "lib_054.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_054",
+    "age": 31,
+    "gender": "man",
+    "looks": "South Asian features and long black hair",
+    "setting": "outdoor",
+    "detail": "a city park in autumn",
+    "activity": "walking a dog",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 31 years old, with South Asian features and long black hair. Setting: a city park in autumn. The person is walking a dog. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_055",
+   "file": "lib_055.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_055",
+    "age": 43,
+    "gender": "nonbinary person",
+    "looks": "Middle Eastern features and a short short hair",
+    "setting": "nature",
+    "detail": "a pine forest path",
+    "activity": "stopping to look up",
+    "activityKind": "outdoors",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional nonbinary person, about 43 years old, with Middle Eastern features and a short short hair. Setting: a pine forest path. The person is stopping to look up. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: well lit, sharp, natural light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_056",
+   "file": "lib_056.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_056",
+    "age": 45,
+    "gender": "woman",
+    "looks": "dark brown skin and close-cropped hair",
+    "setting": "urban",
+    "detail": "a cycle lane by a canal",
+    "activity": "standing beside a bicycle",
+    "activityKind": "everyday",
+    "people": "solo",
+    "photoType": "posed",
+    "quality": "harsh",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 45 years old, with dark brown skin and close-cropped hair. Setting: a cycle lane by a canal. The person is standing beside a bicycle. Only this one person is in the frame. It is a posed photo, the person looking at the camera and smiling. Lighting and quality: harsh on-camera flash, flat lighting, phone snapshot. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_057",
+   "file": "lib_057.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_057",
+    "age": 37,
+    "gender": "man",
+    "looks": "Black man with natural curls",
+    "setting": "indoor",
+    "detail": "a small neighbourhood bookshop",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 37 years old, with Black man with natural curls. Setting: a small neighbourhood bookshop. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_058",
+   "file": "lib_058.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_058",
+    "age": 34,
+    "gender": "woman",
+    "looks": "olive skin and a grey streak in dark hair",
+    "setting": "indoor",
+    "detail": "a restaurant table at night",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "good",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 34 years old, with olive skin and a grey streak in dark hair. Setting: a restaurant table at night. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: clean daylight, sharp. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_059",
+   "file": "lib_059.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_059",
+    "age": 33,
+    "gender": "man",
+    "looks": "pale skin with freckles and red hair",
+    "setting": "nature",
+    "detail": "a mountain trail above a valley",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "soft",
+    "prompt": "Create a photorealistic photograph of a fictional man, about 33 years old, with pale skin with freckles and red hair. Setting: a mountain trail above a valley. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: slightly soft focus and mild motion blur, taken on a phone. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  },
+  {
+   "id": "lib_060",
+   "file": "lib_060.jpg",
+   "generation": "20261002T095001Z",
+   "originalSize": [
+    825,
+    1024
+   ],
+   "spec": {
+    "id": "lib_060",
+    "age": 47,
+    "gender": "woman",
+    "looks": "light skin, blond hair and glasses",
+    "setting": "urban",
+    "detail": "a tram stop in the rain",
+    "activity": null,
+    "activityKind": "none",
+    "people": "solo",
+    "photoType": "portrait",
+    "quality": "dim",
+    "prompt": "Create a photorealistic photograph of a fictional woman, about 47 years old, with light skin, blond hair and glasses. Setting: a tram stop in the rain. Only this one person is in the frame. It is a head-and-shoulders portrait, neutral relaxed expression. Lighting and quality: dim and a little underexposed, indoor evening light. The person is invented and must not resemble any real or famous individual. Portrait orientation, 4:5, no text, no watermark, no logos."
+   }
+  }
+ ]
+}

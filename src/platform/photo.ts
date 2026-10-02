@@ -6,11 +6,12 @@ import { hashString, mulberry32 } from './rng.ts';
  * A profile's photo slots carry a `photoRef`: `<scheme>:<version>:<profileId>:<slot>`.
  * The platform serves the image at `GET /photos/{photoRef}`. Callers treat the ref as opaque.
  *
- * Phase 1 implements one scheme, `ph` (placeholder): a seeded abstract SVG, deterministic per
- * ref, with initials on slot 0. No image generation, no real photographs.
- *
- * To introduce generated portraits later, register another scheme in `renderers` below and
- * seed profiles with refs in that scheme. Nothing else needs to change.
+ * Two schemes:
+ *   `ph`  placeholder: a seeded abstract SVG, deterministic per ref, with initials on slot 0.
+ *   `gp`  generated portrait: a JPEG from the portrait library (src/vision), chosen
+ *         deterministically for the profile. Used for slot 0. Independent generations cannot
+ *         depict the same person twice, so other slots stay placeholder art.
+ * Callers treat the ref as opaque.
  */
 
 export interface ParsedPhotoRef {
@@ -21,7 +22,7 @@ export interface ParsedPhotoRef {
 }
 
 export function makePhotoRef(profileId: string, slot: number): string {
-  return `ph:v1:${profileId}:${slot}`;
+  return `${slot === 0 ? 'gp' : 'ph'}:v1:${profileId}:${slot}`;
 }
 
 export function parsePhotoRef(ref: string): ParsedPhotoRef | null {

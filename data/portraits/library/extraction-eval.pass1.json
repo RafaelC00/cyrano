@@ -1,0 +1,69 @@
+{
+ "extractor": "gemma3:4b",
+ "n": 60,
+ "agreementWithGenerationSpec": {
+  "setting": {
+   "agree": 36,
+   "of": 60,
+   "rate": 0.6
+  },
+  "activityKind": {
+   "agree": 35,
+   "of": 60,
+   "rate": 0.583
+  },
+  "people": {
+   "agree": 59,
+   "of": 60,
+   "rate": 0.983
+  },
+  "photoType": {
+   "agree": 40,
+   "of": 60,
+   "rate": 0.667
+  }
+ },
+ "confusion": {
+  "setting": {
+   "indoor -> indoor": 9,
+   "indoor -> urban": 11,
+   "outdoor -> outdoor": 7,
+   "nature -> nature": 7,
+   "urban -> urban": 13,
+   "outdoor -> urban": 5,
+   "nature -> outdoor": 5,
+   "urban -> outdoor": 3
+  },
+  "activityKind": {
+   "food -> food": 6,
+   "culture -> culture": 6,
+   "sport -> sport": 3,
+   "outdoors -> outdoors": 10,
+   "everyday -> outdoors": 4,
+   "social -> social": 3,
+   "none -> culture": 3,
+   "none -> sport": 2,
+   "none -> outdoors": 9,
+   "craft -> craft": 4,
+   "everyday -> everyday": 3,
+   "none -> everyday": 5,
+   "social -> outdoors": 1,
+   "none -> social": 1
+  },
+  "people": {
+   "solo -> solo": 46,
+   "group -> group": 13,
+   "solo -> group": 1
+  },
+  "photoType": {
+   "candid -> candid": 19,
+   "posed -> posed": 13,
+   "posed -> candid": 7,
+   "portrait -> posed": 11,
+   "portrait -> portrait": 8,
+   "candid -> portrait": 1,
+   "portrait -> candid": 1
+  }
+ },
+ "note": "The spec is what the generator was ASKED to draw. The image generator can drift from its prompt, so disagreement is not purely extractor error."
+}
