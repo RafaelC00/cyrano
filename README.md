@@ -106,7 +106,13 @@ cd web && npm install && npm run dev:all    # backend and web client at http://1
 
 With the backend running: `curl -X POST localhost:4200/runs` runs the funnel, `curl localhost:4200/gate` shows who is waiting, and `curl localhost:4200/model/report` serves the held-out result. Nothing is metered; there are no accounts or credentials.
 
-The portrait library in `data/portraits/library` is committed. `scripts/portraits` holds the Python used to generate it (an image model driven through a browser session; I have not checked that route against that service's terms) and to extract features (OpenCV and a local Ollama model). They are only needed to rebuild the library. The raw generation runs in `data/portraits/generations/` are git-ignored.
+The portrait library in `data/portraits/library` is committed. `scripts/portraits` holds the Python used to generate it and to extract features (OpenCV and a local Ollama model). They are only needed to rebuild the library. The raw generation runs in `data/portraits/generations/` are git-ignored.
+
+**On the generation route, since this repository makes an argument about automated access.** The 60 portraits were made by driving an image model's web interface from a browser session rather than through its API. That is automation of somebody's service, and I have not checked it against that service's terms, so I am not going to claim it is clean.
+
+What I will claim is that it is not the same act as the one this project refuses. Automating a dating platform means manufacturing contact with real people, at scale, on a service that prohibits it and enforces the prohibition, and the people on the other side never agreed to any of it. Scripting an image generator means asking a tool for the thing the tool is for, with nobody on the other end. The objection to the first is the people; the objection to the second, if there is one, is a contract between me and a vendor.
+
+I would rather write that distinction down than publish a repository that implies a purity it does not have.
 
 ## Layout
 
